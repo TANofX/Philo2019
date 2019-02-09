@@ -14,38 +14,36 @@ import frc.robot.subsystems.climber.Climber;
  * This Command sends the appropriate signals to the specified climber subsystem
  * to move to a given height (up or down) form it's current position.
  */
-public class ClimbToHeight extends Command {
-  private double heightToClimb;
+public class HoldPosition extends Command {
   private Climber climberSubsystem;
+  private double targetHeight;
 
-  public ClimbToHeight(Climber subsystem, double heightInInches) {
+  public HoldPosition(Climber subsystem) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     climberSubsystem = subsystem;
     requires(climberSubsystem);
-    
-    heightToClimb = heightInInches;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    climberSubsystem.goToHeightInches(heightToClimb);
+    targetHeight = climberSubsystem.getCurrentHeightInches();
+    if (targetHeight < 0) {
+      targetHeight = 0;
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    climberSubsystem.goToHeightInches(targetHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (climberSubsystem.isAtHeightInches(heightToClimb)) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 
   // Called once after isFinished returns true

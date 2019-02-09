@@ -51,4 +51,8 @@ public class DriveBase extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new DefaultJoystickDrive(this));
   }
+
+  public void driveSpeed(double speedInInchesPerSec) {
+    //Dummy Method - for now...
+  }
 }
