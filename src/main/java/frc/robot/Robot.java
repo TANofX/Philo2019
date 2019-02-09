@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
+import frc.robot.commands.climber.SynchronizedClimb;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drives.DriveBase;
 
@@ -49,7 +51,7 @@ public class Robot extends TimedRobot {
   //  m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
   //  SmartDashboard.putData("Auto mode", m_chooser);
-    m_oi.frontClimbButton.whileHeld(new ClimbToHeight(m_frontClimber, 22.0));
+    m_oi.frontClimbButton.whileHeld(new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
   }
 
   /**
@@ -123,6 +125,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // Make sure to remove these.  They are only here as temporary attempts to set up the climber
+    Scheduler.getInstance().add(new CalibrateClimber(m_frontClimber));
+    Scheduler.getInstance().add(new CalibrateClimber(m_rearClimber));
   }
 
   /**
