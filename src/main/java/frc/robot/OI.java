@@ -21,9 +21,18 @@ public class OI {
   //// joystick.
   // You create one by telling it which joystick it's on and which button
   // number it is.
-  Joystick stick = new Joystick(0);
-  Button frontClimbButton = new JoystickButton(stick, 1);
+  Joystick joy = new Joystick(0);
+  Button frontClimbButton = new JoystickButton(joy, 1);
 
+  Button HatchRaiseLower = new JoystickButton(joy, ButtonMap.RAISE_LOWER);
+	Button GrabHatch = new JoystickButton(joy, ButtonMap.GRAB_HATCH);
+  Button EjectHatch = new JoystickButton(joy, ButtonMap.DETACH_HATCH);
+
+  public Joystick getJoy()
+  {
+    return joy;
+  }
+  
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
   // commands the same as any other Button.
