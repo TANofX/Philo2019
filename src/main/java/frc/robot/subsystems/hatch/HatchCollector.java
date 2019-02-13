@@ -68,12 +68,23 @@ public class HatchCollector extends Subsystem {
     hatchExtend.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
   }
   public int getHingePosition(){
-    if (extendSwitch.get()){
-      return 1;
-    } else if (retractSwitch.get()){
-      return -1;
-    } else{
-      return 0;
+    switch (hatchLift.get()) {
+      case kForward:
+        return 1;
+      case kReverse:
+        return -1;
+      default:
+        return 0;
+    }
+  }
+  public int getExtendPosition(){
+    switch (hatchExtend.get()) {
+      case kForward:
+        return 1;
+      case kReverse:
+        return -1;
+      default:
+        return 0;
     }
   }
   

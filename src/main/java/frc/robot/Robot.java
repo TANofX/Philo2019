@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.climber.ClimbToHeight;
+import frc.robot.commands.hatch.HatchHingeToggle;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drives.DriveBase;
+import frc.robot.subsystems.hatch.HatchCollector;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
                                                     , RobotMap.FRONT_DRIVE_MOTOR_ID);
   public static Climber m_rearClimber = new Climber(RobotMap.REAR_LIFT_MOTOR_ID
                                                   , RobotMap.REAR_DRIVE_MOTOR_ID);
+  //public static HatchCollector m_hatch = new HatchCollector(pcmCANId, liftIdA, liftIdB, extendIdA, extendIdB, releaseId, extendIO, retractIO);
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -50,6 +53,7 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
   //  SmartDashboard.putData("Auto mode", m_chooser);
     m_oi.frontClimbButton.whileHeld(new ClimbToHeight(m_frontClimber, 22.0));
+    //m_oi.HatchRaiseLower.whenPressed(new HatchHingeToggle(m_collector));
   }
 
   /**

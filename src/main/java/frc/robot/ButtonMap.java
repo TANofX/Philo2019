@@ -13,6 +13,6 @@ public class ButtonMap {
     //This class will be used to list all the locations of joystick buttons
     // As of 2/9/2018, all joystick buttons are TEMPORARY. Do not use these for reference.
     public static int RAISE_LOWER = 1;
-    public static int GRAB_HATCH = 2;
-    public static int DETACH_HATCH = 3;
+    public static int GRAB_HATCH = 5;
+    public static int DETACH_HATCH = 2;
 }
