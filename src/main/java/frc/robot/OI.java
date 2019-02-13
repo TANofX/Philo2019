@@ -51,11 +51,9 @@ public class OI {
   //Buttons for drive
 
   //Buttons for hatch
-  //Consult later - how do triggers work?
-  Button hatchExtend = new JoystickButton(stick, 5);
-  Button hatchHinge = new JoystickButton(stick, 1);
-  //also consult what "trigger" in line above is actually supposed to be
-  Button hatchPushOff = new JoystickButton(stick, 2);
+  Button hatchHinge = new JoystickButton(stick, ButtonMap.RAISE_LOWER);
+	Button hatchExtend = new JoystickButton(stick, ButtonMap.GRAB_HATCH);
+  Button hatchPushOff = new JoystickButton(stick, ButtonMap.DETACH_HATCH);
 
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
