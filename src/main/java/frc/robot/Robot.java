@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
   //  m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
   //  SmartDashboard.putData("Auto mode", m_chooser);
-    m_oi.frontClimbButton.whileHeld(new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
+   // m_oi.frontClimbButton.whileHeld(new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
   }
 
   /**

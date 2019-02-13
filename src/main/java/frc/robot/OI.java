@@ -34,8 +34,9 @@ public class OI {
   //Buttons for Climb
   //I'm guessing below is just an example?
   //Button frontClimbButton = new JoystickButton(stick, 1);
-  Button climberAutolvl2 = new JoystickButton(xbox, xboxbuttonX);
-  Button climberAutolvl3 = new JoystickButton(xbox, xboxbuttonB);
+  
+  //Button climberAutolvl2 = new JoystickButton(xbox, xboxbuttonX);
+  //Button climberAutolvl3 = new JoystickButton(xbox, xboxbuttonB);
   //"Xboxbutton" is a placeholder until I figure out what actually goes in there.
 
   Button frontClimbUp = new JoystickButton(stick, 7);
@@ -48,16 +49,11 @@ public class OI {
   Button climbMoveBackwards = new JoystickButton(stick, 12);
 
   //Buttons for drive
-  JoystickTriggerTrigger drive = new JoystickTriggerTrigger(xbox, xboxtrigger);
-  JoystickTriggerTrigger turn = new JoystickTriggerTrigger(xbox, xboxtrigger);
-
-  Button highGear = new JoystickButton(xbox, xboxbuttonRT);
-  Button lowGear = new JoystickButton(xbox, xboxbuttonRB);
 
   //Buttons for hatch
   //Consult later - how do triggers work?
   Button hatchExtend = new JoystickButton(stick, 5);
-  Button hatchHinge = new JoystickButton(stick, trigger);
+  Button hatchHinge = new JoystickButton(stick, 1);
   //also consult what "trigger" in line above is actually supposed to be
   Button hatchPushOff = new JoystickButton(stick, 2);
 
@@ -81,40 +77,38 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  public OI(){
 
   //Climb Triggers
-  climberAutolvl2.whenPressed(new ClimbToLevelCommand());
-  climberAutolvl3.whenPressed(new ClimbToLevelCommand());
+  //climberAutolvl2.whenPressed(new ClimbToLevelCommand());
+  //climberAutolvl3.whenPressed(new ClimbToLevelCommand());
 
-  frontClimbUp.whileHeld(new ClimbToHeightCommand());
-  backClimbUp.whileHeld(new ClimbToHeightCommand());
+  //frontClimbUp.whileHeld(new ClimbToHeightCommand());
+  //backClimbUp.whileHeld(new ClimbToHeightCommand());
 
-  frontClimbDown.whileHeld(new ClimbToHeightCommand());
-  backClimbDown.whileHeld(new ClimbToHeightCommand());
+  //frontClimbDown.whileHeld(new ClimbToHeightCommand());
+  //backClimbDown.whileHeld(new ClimbToHeightCommand());
 
-  climbMoveForward.whileHeld(new MoveDistanceCommand());
-  climbMoveBackwards.whileHeld(new MoveDistanceCommand());
+  //climbMoveForward.whileHeld(new MoveDistanceCommand());
+  //climbMoveBackwards.whileHeld(new MoveDistanceCommand());
 
   //Drive Triggers
-  drive.whileHeld(new placeholder());
-  turn.whileHeld(new placeholder());
+  //drive.whileHeld(new placeholder());
+  //turn.whileHeld(new placeholder());
 
-  highGear.whenPressed(new placeholder());
-  lowGear.whenPressed(new placeholder());
+  //highGear.whenPressed(new placeholder());
+  //lowGear.whenPressed(new placeholder());
 
   //hatch Triggers
-  hatchExtend.whenActive(new placeholder());
-  hatchHinge.whenActive(new placeholder());
-  hatchPushOff.whenActive(new placeholder());
-  }
+  //hatchExtend.whenActive(new placeholder());
+  //hatchHinge.whenActive(new placeholder());
+  //hatchPushOff.whenActive(new placeholder());
 
   public Joystick getJoystick(){
-    return Joystick;
+    return stick;
   }
 
   public Joystick getXbox(){
-    return XboxController;
+    return xbox;
   }
 
 }
