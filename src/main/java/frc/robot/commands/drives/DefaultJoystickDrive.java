@@ -28,6 +28,7 @@ public class DefaultJoystickDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    driveSubsystem.getDriveBase().arcadeDrive(Robot.oi.stick.getRawAxis(1), Robot.oi.stick.getRawAxis(4));
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -39,11 +40,13 @@ public class DefaultJoystickDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    interrupted();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_drives.stopMotors();
   }
 }

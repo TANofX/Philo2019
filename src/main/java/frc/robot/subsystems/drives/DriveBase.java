@@ -26,6 +26,8 @@ public class DriveBase extends Subsystem {
   private TalonSRX rightFollower1;
   private TalonSRX rightFollower2;
 
+  private DifferentialDrive driveBase;
+
   public DriveBase( int leftMasterCANId
                   , int leftFollower1CANId
                   , int leftFollower2CANId
@@ -43,6 +45,8 @@ public class DriveBase extends Subsystem {
     rightMasterMotor = new TalonSRX(rightMasterCANId);
     rightFollower1 = new TalonSRX(rightFollower1CANId);
     rightFollower2 = new TalonSRX(rightFollower2CANId);
+
+    driveBase = new DifferentialDrive(leftMasterMotor, rightMasterMotor);
   }
 
   @Override
@@ -50,5 +54,16 @@ public class DriveBase extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new DefaultJoystickDrive(this));
+  }
+
+  public void stopMotors()
+  {
+    leftMasterMotor.set(0);
+    rightMasterMotor.set(0);
+  }
+
+  public DifferentialDrive getDriveBase()
+  {
+    return driveBase;
   }
 }
