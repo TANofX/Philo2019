@@ -21,7 +21,7 @@ public class Climber extends Subsystem {
   private static final double CLIMB_DURATION_SECONDS = 4.0;
   private static final double ALLOWED_HEIGHT_ERROR_INCHES = 0.0625;
   private static final double ALLOWED_DRIVE_ERROR_INCHES = 0.125;
-  private static final double CALIBRATION_SPEED = 0.125; //Driving motor in a positive direction goes down, driving negative goes up
+  private static final double CALIBRATION_SPEED = 0.25; //Driving motor in a positive direction goes down, driving negative goes up
   private static final double DRIVE_SCALE_FACTOR = -1.0; 
 
   private static final double MAXIMUM_LIFT_HEIGHT_INCHES = 22.0;
@@ -50,14 +50,15 @@ public class Climber extends Subsystem {
 
 
     liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    liftMotor.setSensorPhase(true);
     liftMotor.configPeakCurrentLimit(70, 0);
     liftMotor.configPeakCurrentDuration(10, 0);
     liftMotor.configContinuousCurrentLimit(30);
     liftMotor.enableCurrentLimit(true);
-    liftMotor.config_kP(LIFT_PROFILE, 4.0, 0);
+    liftMotor.config_kP(LIFT_PROFILE, 2.0, 0);
     liftMotor.config_kI(LIFT_PROFILE, 0.0, 0);
     liftMotor.config_kD(LIFT_PROFILE, 0.0, 0);
-    liftMotor.config_kF(LIFT_PROFILE, 3.0, 0);
+    liftMotor.config_kF(LIFT_PROFILE, 2.0, 0);
     liftMotor.configMotionAcceleration(LIFT_CRUISE_VELOCITY);
     liftMotor.configMotionCruiseVelocity(LIFT_CRUISE_VELOCITY);
     // liftMotor.configClearPositionOnLimitR(true, 0);

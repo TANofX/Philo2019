@@ -143,10 +143,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
-    // Make sure to remove these.  They are only here as temporary attempts to set up the climber
-    Scheduler.getInstance().add(new CalibrateClimber(m_frontClimber));
-    Scheduler.getInstance().add(new CalibrateClimber(m_rearClimber));
   }
 
   /**
