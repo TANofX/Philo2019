@@ -162,4 +162,12 @@ public class Climber extends Subsystem {
      return false;
    } 
   }
+
+  public double motorVoltage() {
+    return liftMotor.getMotorOutputVoltage();
+  }
+
+  public double motorCurrent() {
+    return liftMotor.getOutputCurrent();
+  }
 }
