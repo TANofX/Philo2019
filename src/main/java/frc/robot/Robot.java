@@ -70,6 +70,14 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Calibrate Front", new CalibrateClimber(m_frontClimber));
     SmartDashboard.putData("Calibrate Rear", new CalibrateClimber(m_rearClimber));
+
+    SmartDashboard.putData("rear 0", new ClimbToHeight(m_rearClimber, 0));
+    SmartDashboard.putData("rear 7", new ClimbToHeight(m_rearClimber, 7));
+    SmartDashboard.putData("rear 19", new ClimbToHeight(m_rearClimber,19));
+
+    SmartDashboard.putData("front 0", new ClimbToHeight(m_frontClimber, 0));
+    SmartDashboard.putData("front 7", new ClimbToHeight(m_frontClimber, 7));
+    SmartDashboard.putData("front 19", new ClimbToHeight(m_frontClimber, 19));
   }
 
   /**
