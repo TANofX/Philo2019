@@ -5,49 +5,58 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drives;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.drives.DriveBase;
+import frc.robot.subsystems.hatch.HatchCollector;
 
-public class DefaultJoystickDrive extends Command {
-  private DriveBase driveSubsystem;
+public class HatchExtendToggle extends Command {
+  private HatchCollector collector;
+  private boolean extendHinge = false;
 
-  public DefaultJoystickDrive(DriveBase subsystem) {
+  public HatchExtendToggle(HatchCollector hatch) {
+    super("hinge deploy", 1);
+    collector = hatch;
+    requires(collector);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    driveSubsystem = subsystem;
-    requires(driveSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if (collector.getExtendPosition() == 1) {
+      extendHinge = false;
+    } else if (collector.getExtendPosition() == -1) {
+      extendHinge = true;
+    }
+
+    collector.hatchExtend(extendHinge);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSubsystem.getDriveBase().arcadeDrive(Robot.m_oi.getXbox().getRawAxis(1), Robot.m_oi.getXbox().getRawAxis(4));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if (((extendHinge) && (collector.getExtendPosition() == 1)) || ((!extendHinge) && (collector.getExtendPosition() == -1))) {
+      return true;
+    }
+
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    interrupted();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    driveSubsystem.stopMotors();
   }
 }

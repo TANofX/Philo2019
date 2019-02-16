@@ -2,6 +2,11 @@
 # Edit at https://www.gitignore.io/?templates=java,gradle
 ### Custom ###
 /bin/
+/.classpath/
+/.project/
+.classpath
+.project
+/.settings/
 
 ### Java ###
 # Compiled class file

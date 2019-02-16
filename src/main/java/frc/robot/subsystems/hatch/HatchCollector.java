@@ -8,6 +8,7 @@
 package frc.robot.subsystems.hatch;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,17 +24,23 @@ public class HatchCollector extends Subsystem {
   private DoubleSolenoid hatchExtend;
   private Solenoid hatchRelease;
   private boolean started = false;
+  private DigitalInput extendSwitch;
+  private DigitalInput retractSwitch;
 
   public HatchCollector(  int pcmCANId
                         , int liftIdA
                         , int liftIdB
                         , int extendIdA
                         , int extendIdB
-                        , int releaseId) {
+                        , int releaseId
+                        , int extendIO
+                        , int retractIO) {
     compressorControl = new Compressor(pcmCANId);
     hatchLift = new DoubleSolenoid(pcmCANId, liftIdA, liftIdB);
     hatchExtend = new DoubleSolenoid(pcmCANId, extendIdA, extendIdB);
     hatchRelease = new Solenoid(pcmCANId, releaseId);
+    extendSwitch = new DigitalInput(extendIO);
+    retractSwitch = new DigitalInput(retractIO);
   }
 
   public void startup() {
@@ -51,7 +58,36 @@ public class HatchCollector extends Subsystem {
     compressorControl.setClosedLoopControl(false);
     started = false;
   }
-
+  public void hingeExtend(boolean hingeState) {
+    hatchLift.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+  }
+  public void hatchRelease(boolean hingeState) {
+    hatchRelease.set(hingeState);
+  }
+  public void hatchExtend(boolean hingeState) {
+    hatchExtend.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+  }
+  public int getHingePosition(){
+    switch (hatchLift.get()) {
+      case kForward:
+        return 1;
+      case kReverse:
+        return -1;
+      default:
+        return 0;
+    }
+  }
+  public int getExtendPosition(){
+    switch (hatchExtend.get()) {
+      case kForward:
+        return 1;
+      case kReverse:
+        return -1;
+      default:
+        return 0;
+    }
+  }
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

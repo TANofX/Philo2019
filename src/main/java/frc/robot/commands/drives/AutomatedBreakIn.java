@@ -8,46 +8,77 @@
 package frc.robot.commands.drives;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 import frc.robot.subsystems.drives.DriveBase;
 
-public class DefaultJoystickDrive extends Command {
-  private DriveBase driveSubsystem;
+public class AutomatedBreakIn extends Command {
+  private DriveBase drives;
+  private double minP;
+  private double maxP;
+  private double duration;
+  private double currentP;
+  private double scaleFactor = 1.0;
 
-  public DefaultJoystickDrive(DriveBase subsystem) {
+  private double rampRate;
+
+  public AutomatedBreakIn(DriveBase driveSubsystem, double minPercent, double maxPercent, double startDirection, double durationSeconds) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    driveSubsystem = subsystem;
-    requires(driveSubsystem);
+    drives = driveSubsystem;
+    requires(drives);
+
+    minP = minPercent;
+    maxP = maxPercent;
+    duration = durationSeconds;
+
+    rampRate = (maxP - minP) * 2.0 / durationSeconds;
+
+    scaleFactor = startDirection;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    drives.stopMotors();
+
+    if (scaleFactor < 0) {
+      currentP = maxP;
+    } else {
+      currentP = minP;
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSubsystem.getDriveBase().arcadeDrive(Robot.m_oi.getXbox().getRawAxis(1), Robot.m_oi.getXbox().getRawAxis(4));
+    drives.driveMotors(currentP);
+
+    currentP += rampRate * scaleFactor;
+    if (currentP > maxP) {
+      scaleFactor = -1.0;
+      currentP = minP;
+    } else if (currentP < minP) {
+      scaleFactor = 1.0;
+      currentP = minP;
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return timeSinceInitialized() > duration;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    interrupted();
+    drives.stopMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    driveSubsystem.stopMotors();
+    drives.stopMotors();
   }
 }

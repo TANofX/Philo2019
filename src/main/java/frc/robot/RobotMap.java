@@ -23,17 +23,32 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
-  public static final int LEFT_MASTER_MOTOR_ID = 1;
-  public static final int LEFT_FOLLOWER_1_ID = 2;
-  public static final int LEFT_FOLLOWER_2_ID = 3;
+  public static final int LEFT_MASTER_MOTOR_ID = 12;
+  public static final int LEFT_FOLLOWER_1_ID = 3;
+  public static final int LEFT_FOLLOWER_2_ID = 4;
 
-  public static final int RIGHT_MASTER_MOTOR_ID = 4;
-  public static final int RIGHT_FOLLOWER_1_ID = 5;
-  public static final int RIGHT_FOLLOWER_2_ID = 6;
+  public static final int RIGHT_MASTER_MOTOR_ID = 8;
+  public static final int RIGHT_FOLLOWER_1_ID = 10;
+  public static final int RIGHT_FOLLOWER_2_ID = 11;
 
-  public static final int FRONT_LIFT_MOTOR_ID = 7;
-  public static final int FRONT_DRIVE_MOTOR_ID = 8;
+  public static final int FRONT_LIFT_MOTOR_ID = 5;
+  public static final int FRONT_DRIVE_MOTOR_ID = 13;
 
-  public static final int REAR_LIFT_MOTOR_ID = 9;
-  public static final int REAR_DRIVE_MOTOR_ID = 10;
+  public static final int REAR_LIFT_MOTOR_ID = 2;
+  public static final int REAR_DRIVE_MOTOR_ID = 9;
+  
+  public static final int PDP_ID = 6;
+  public static final int PIDGEON_IMU_ID = 7;
+  public static final int PCM_ID = 1;
+  public static final int ROBO_RIO_ID = 0;
+
+  public static final int GEARSHIFT_PCM_PORT = 0;
+  public static final int HATCH_HINGE_EXTEND_PCM_PORT = 1;
+  public static final int HATCH_HINGE_RETRACT_PCM_PORT = 2;
+  public static final int HATCH_EXTEND_PCM_PORT = 3;
+  public static final int HATCH_RETRACT_PCM_PORT = 4;
+  public static final int HATCH_PUSHOFF_PCM_PORT = 5;
+
+  public static final int HINGE_EXTEND_DIO_PORT = 0;
+  public static final int HINGE_RETRACT_DIO_PORT = 1;
 }

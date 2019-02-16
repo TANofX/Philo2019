@@ -5,49 +5,55 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drives;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.drives.DriveBase;
+import frc.robot.subsystems.climber.Climber;
 
-public class DefaultJoystickDrive extends Command {
-  private DriveBase driveSubsystem;
+/***
+ * This Command sends the appropriate signals to the specified climber subsystem
+ * to move to a given height (up or down) form it's current position.
+ */
+public class CalibrateClimber extends Command {
+  private Climber climberSubsystem;
 
-  public DefaultJoystickDrive(DriveBase subsystem) {
+  public CalibrateClimber(Climber subsystem) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    driveSubsystem = subsystem;
-    requires(driveSubsystem);
+    super("Calibrate Climber", 0.5);
+    climberSubsystem = subsystem;
+    requires(climberSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    climberSubsystem.calibrateLift();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSubsystem.getDriveBase().arcadeDrive(Robot.m_oi.getXbox().getRawAxis(1), Robot.m_oi.getXbox().getRawAxis(4));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return climberSubsystem.getTopLimitSwitch();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    interrupted();
+    climberSubsystem.stopLift();
+    climberSubsystem.zeroClimber();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    driveSubsystem.stopMotors();
+    climberSubsystem.stopLift();
+    climberSubsystem.zeroClimber();
   }
 }

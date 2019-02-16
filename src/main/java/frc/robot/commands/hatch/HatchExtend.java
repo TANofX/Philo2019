@@ -5,20 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drives;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.drives.DriveBase;
+import frc.robot.subsystems.hatch.HatchCollector;
 
-public class DefaultJoystickDrive extends Command {
-  private DriveBase driveSubsystem;
-
-  public DefaultJoystickDrive(DriveBase subsystem) {
+public class HatchExtend extends Command {
+  private HatchCollector collector;
+  
+  public HatchExtend(HatchCollector Hatch ) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    driveSubsystem = subsystem;
-    requires(driveSubsystem);
+  super("hatch extend", 0.5);
+    collector = Hatch;
+  requires(collector);
   }
 
   // Called just before this Command runs the first time
@@ -29,7 +29,7 @@ public class DefaultJoystickDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSubsystem.getDriveBase().arcadeDrive(Robot.m_oi.getXbox().getRawAxis(1), Robot.m_oi.getXbox().getRawAxis(4));
+    collector.hatchExtend(true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,13 +41,11 @@ public class DefaultJoystickDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    interrupted();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    driveSubsystem.stopMotors();
   }
 }

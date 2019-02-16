@@ -12,9 +12,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
+import frc.robot.commands.climber.SynchronizedClimb;
+import frc.robot.commands.hatch.HatchHingeToggle;
+import frc.robot.commands.hatch.HatchExtendToggle;
+import frc.robot.commands.hatch.HatchRelease;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drives.DriveBase;
+import frc.robot.subsystems.hatch.HatchCollector;
+import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +41,15 @@ public class Robot extends TimedRobot {
                                                     , RobotMap.FRONT_DRIVE_MOTOR_ID);
   public static Climber m_rearClimber = new Climber(RobotMap.REAR_LIFT_MOTOR_ID
                                                   , RobotMap.REAR_DRIVE_MOTOR_ID);
+  public static HatchCollector m_hatch = new HatchCollector(RobotMap.PCM_ID
+                                                          , RobotMap.HATCH_HINGE_EXTEND_PCM_PORT
+                                                          , RobotMap.HATCH_HINGE_RETRACT_PCM_PORT
+                                                          , RobotMap.HATCH_EXTEND_PCM_PORT
+                                                          , RobotMap.HATCH_RETRACT_PCM_PORT
+                                                          , RobotMap.HATCH_PUSHOFF_PCM_PORT
+                                                          , RobotMap.HINGE_EXTEND_DIO_PORT
+                                                          , RobotMap.HINGE_RETRACT_DIO_PORT);
+  public static PidgeonIMU m_pigeon = new PidgeonIMU(RobotMap.PIDGEON_IMU_ID);
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -49,7 +65,23 @@ public class Robot extends TimedRobot {
   //  m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
   //  SmartDashboard.putData("Auto mode", m_chooser);
-    m_oi.frontClimbButton.whileHeld(new ClimbToHeight(m_frontClimber, 22.0));
+  //  m_oi.frontClimbButton.whileHeld(new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
+    m_oi.hatchHinge.whenPressed(new HatchHingeToggle(m_hatch));
+    m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
+    m_oi.hatchPushOff.whenPressed(new HatchRelease(m_hatch));
+
+    SmartDashboard.putData("Calibrate Front", new CalibrateClimber(m_frontClimber));
+    SmartDashboard.putData("Calibrate Rear", new CalibrateClimber(m_rearClimber));
+
+    SmartDashboard.putData("rear 0", new ClimbToHeight(m_rearClimber, 0));
+    SmartDashboard.putData("rear 7", new ClimbToHeight(m_rearClimber, 7));
+    SmartDashboard.putData("rear 19", new ClimbToHeight(m_rearClimber,19));
+
+    SmartDashboard.putData("front 0", new ClimbToHeight(m_frontClimber, 0));
+    SmartDashboard.putData("front 7", new ClimbToHeight(m_frontClimber, 7));
+    SmartDashboard.putData("front 19", new ClimbToHeight(m_frontClimber, 19));
+
+    SmartDashboard.putData("Sync 4", new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
   }
 
   /**
