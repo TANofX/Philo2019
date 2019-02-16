@@ -58,9 +58,9 @@ public class Climber extends Subsystem {
     liftMotor.setInverted(false);
     liftMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     liftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-    liftMotor.configPeakCurrentLimit(30, 0);
-    liftMotor.configPeakCurrentDuration(10, 0);
-    liftMotor.configContinuousCurrentLimit(10);
+    liftMotor.configPeakCurrentLimit(60, 0);
+    liftMotor.configPeakCurrentDuration(100, 0);
+    liftMotor.configContinuousCurrentLimit(40);
     liftMotor.enableCurrentLimit(true);
     liftMotor.config_kP(LIFT_PROFILE, 0.06, 0);
     liftMotor.config_kI(LIFT_PROFILE, 0.01, 0);
