@@ -9,6 +9,8 @@ package frc.robot.subsystems.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -52,7 +54,9 @@ public class Climber extends Subsystem {
     liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     liftMotor.setSensorPhase(false);
     liftMotor.setInverted(true);
-    liftMotor.configPeakCurrentLimit(70, 0);
+    liftMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    liftMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    liftMotor.configPeakCurrentLimit(60, 0);
     liftMotor.configPeakCurrentDuration(10, 0);
     liftMotor.configContinuousCurrentLimit(30);
     liftMotor.enableCurrentLimit(true);
