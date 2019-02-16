@@ -25,7 +25,7 @@ public class Climber extends Subsystem {
   private static final double DRIVE_SCALE_FACTOR = -1.0; 
 
   private static final double MAXIMUM_LIFT_HEIGHT_INCHES = 22.0;
-  private static final double LEAD_SCREW_PITCH = 0.125;  // Inches per revolution
+  private static final double LEAD_SCREW_PITCH = 1.0;  // Inches per revolution
   private static final double ENCODER_PULSE_PER_REVOLUTION = 1024.0 / 4.0; // VEX Planetary Encoder with 1024 CPR
   private static final double LIFT_ENCODER_PULSE_PER_INCH = ENCODER_PULSE_PER_REVOLUTION / LEAD_SCREW_PITCH;
   //private static final double LIFT_ALLOWED_ERROR_PULSES = LIFT_ENCODER_PULSE_PER_INCH * ALLOWED_HEIGHT_ERROR_INCHES;

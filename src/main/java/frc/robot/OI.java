@@ -28,8 +28,8 @@ public class OI {
   //// joystick.
   // You create one by telling it which joystick it's on and which button
   // number it is.
-  Joystick stick = new Joystick(0);
-  Joystick xbox = new Joystick(1);
+  Joystick stick = new Joystick(ButtonMap.STICK);
+  Joystick xbox = new Joystick(ButtonMap.XBOX);
 
   //Buttons for Climb
   //I'm guessing below is just an example?

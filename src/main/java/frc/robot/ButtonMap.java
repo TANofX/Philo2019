@@ -15,4 +15,6 @@ public class ButtonMap {
     public static int RAISE_LOWER = 1;
     public static int GRAB_HATCH = 5;
     public static int DETACH_HATCH = 2;
+    public static int STICK = 1;
+    public static int XBOX = 0;
 }
