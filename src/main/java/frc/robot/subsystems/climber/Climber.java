@@ -18,10 +18,10 @@ import frc.robot.commands.climber.HoldPosition;
  * Add your docs here.
  */
 public class Climber extends Subsystem {
-  private static final double CLIMB_DURATION_SECONDS = 4.0;
+  private static final double CLIMB_DURATION_SECONDS = 12.0;
   private static final double ALLOWED_HEIGHT_ERROR_INCHES = 0.0625;
   private static final double ALLOWED_DRIVE_ERROR_INCHES = 0.125;
-  private static final double CALIBRATION_SPEED = 0.25; //Driving motor in a positive direction goes down, driving negative goes up
+  private static final double CALIBRATION_SPEED = -0.25; //Driving motor in a positive direction goes down, driving negative goes up
   private static final double DRIVE_SCALE_FACTOR = -1.0; 
 
   private static final double MAXIMUM_LIFT_HEIGHT_INCHES = 22.0;
@@ -50,7 +50,8 @@ public class Climber extends Subsystem {
 
 
     liftMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    liftMotor.setSensorPhase(true);
+    liftMotor.setSensorPhase(false);
+    liftMotor.setInverted(true);
     liftMotor.configPeakCurrentLimit(70, 0);
     liftMotor.configPeakCurrentDuration(10, 0);
     liftMotor.configContinuousCurrentLimit(30);
@@ -76,7 +77,7 @@ public class Climber extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new HoldPosition(this));
+    //setDefaultCommand(new HoldPosition(this));
   }
 
   public double getCurrentHeightInches() {
