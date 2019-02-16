@@ -32,7 +32,9 @@ public class DefaultPigeon extends Command {
   @Override
   protected void execute() {
     double [] ypr = pidgeonIMUSubsystem.getState();
-    SmartDashboard.putNumberArray("IMU State", ypr);
+    SmartDashboard.putNumber("Yaw", ypr[0]);
+    SmartDashboard.putNumber("Pitch", ypr[1]);
+    SmartDashboard.putNumber("Roll", ypr[2]);
   }
 
   // Make this return true when this Command no longer needs to run execute()

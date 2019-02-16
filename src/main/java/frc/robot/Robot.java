@@ -21,6 +21,7 @@ import frc.robot.commands.hatch.HatchRelease;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drives.DriveBase;
 import frc.robot.subsystems.hatch.HatchCollector;
+import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
                                                           , RobotMap.HATCH_PUSHOFF_PCM_PORT
                                                           , RobotMap.HINGE_EXTEND_DIO_PORT
                                                           , RobotMap.HINGE_RETRACT_DIO_PORT);
+  public static PidgeonIMU m_pigeon = new PidgeonIMU(RobotMap.PIDGEON_IMU_ID);
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -78,6 +80,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("front 0", new ClimbToHeight(m_frontClimber, 0));
     SmartDashboard.putData("front 7", new ClimbToHeight(m_frontClimber, 7));
     SmartDashboard.putData("front 19", new ClimbToHeight(m_frontClimber, 19));
+
+    SmartDashboard.putData("Sync 4", new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
   }
 
   /**
