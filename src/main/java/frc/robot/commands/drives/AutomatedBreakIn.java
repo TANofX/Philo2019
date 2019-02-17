@@ -8,6 +8,7 @@
 package frc.robot.commands.drives;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drives.DriveBase;
 
 public class AutomatedBreakIn extends Command {
@@ -30,7 +31,7 @@ public class AutomatedBreakIn extends Command {
     maxP = maxPercent;
     duration = durationSeconds;
 
-    rampRate = (maxP - minP) * 2.0 / durationSeconds;
+    rampRate = (maxP - minP) * 2.0 / durationSeconds / 20;
 
     scaleFactor = startDirection;
   }
@@ -50,23 +51,31 @@ public class AutomatedBreakIn extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    SmartDashboard.putNumber("Auto Speed", currentP);
     drives.driveMotors(currentP);
 
     currentP += rampRate * scaleFactor;
-    if (currentP > maxP) {
-      scaleFactor = -1.0;
-      currentP = minP;
-    } else if (currentP < minP) {
-      scaleFactor = 1.0;
-      currentP = minP;
+    if (!(timeSinceInitialized() > duration)) {
+        if (currentP > maxP) {
+          scaleFactor = -1.0;
+          currentP = maxP;
+        } else if (currentP < minP) {
+          scaleFactor = 1.0;
+          currentP = minP;
+        }
+    } else {
+      if (maxP < 0) {
+        scaleFactor = 1.0;
+      } else {
+        scaleFactor = -1.0;
+      }
     }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return timeSinceInitialized() > duration;
+    return ((timeSinceInitialized() > duration) && (Math.abs(currentP) < 0.01));
   }
 
   // Called once after isFinished returns true

@@ -31,13 +31,14 @@ public class AutomatedBreakInComplete extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new AutomatedBreakIn(Robot.m_drives, 0.0, 0.25, 1.0, 90.0));
-    addSequential(new AutomatedBreakIn(Robot.m_drives, -0.25, 0.0, -1.0, 90.0));
-    addSequential(new WaitPeriod(180.0));
-    addSequential(new AutomatedBreakIn(Robot.m_drives, 0.25, 0.5, 1.0, 90.0));
-    addSequential(new AutomatedBreakIn(Robot.m_drives, -0.5, -0.25, -1.0, 90.0));
-    addSequential(new WaitPeriod(180.0));
-    addSequential(new AutomatedBreakIn(Robot.m_drives, 0.5, 1.0, 90.0, 1.0));
-    addSequential(new AutomatedBreakIn(Robot.m_drives, -1.0, -0.5, 90.0, -1.0));
+    // addSequential(new AutomatedBreakIn(Robot.m_drives, 0.0, 0.25, 1.0, 90.0));
+    // addSequential(new AutomatedBreakIn(Robot.m_drives, -0.25, 0.0, -1.0, 90.0));
+    // addSequential(new WaitPeriod(180.0));
+    // addSequential(new AutomatedBreakIn(Robot.m_drives, 0.25, 0.5, 1.0, 90.0));
+    // addSequential(new AutomatedBreakIn(Robot.m_drives, -0.5, -0.25, -1.0, 90.0));
+    // addSequential(new WaitPeriod(180.0));
+    addSequential(new ShiftHighGear(Robot.m_drives));
+    addSequential(new AutomatedBreakIn(Robot.m_drives, 0.5, 1.0, 1.0, 90.0));
+    addSequential(new AutomatedBreakIn(Robot.m_drives, -1.0, -0.5, -1.0, 90.0));
   }
 }

@@ -48,6 +48,7 @@ public class RobotMap {
   public static final int HATCH_EXTEND_PCM_PORT = 3;
   public static final int HATCH_RETRACT_PCM_PORT = 4;
   public static final int HATCH_PUSHOFF_PCM_PORT = 5;
+  public static final int LIFT_BRAKE_PCM_PORT = 6;
 
   public static final int HINGE_EXTEND_DIO_PORT = 0;
   public static final int HINGE_RETRACT_DIO_PORT = 1;

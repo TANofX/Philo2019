@@ -8,17 +8,16 @@
 package frc.robot.commands.drives;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 import frc.robot.subsystems.drives.DriveBase;
 
-public class DefaultJoystickDrive extends Command {
-  private DriveBase driveSubsystem;
+public class DriveForward extends Command {
+  private DriveBase drives;
 
-  public DefaultJoystickDrive(DriveBase subsystem) {
+  public DriveForward(DriveBase dBase) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    driveSubsystem = subsystem;
-    requires(driveSubsystem);
+    drives = dBase;
+    requires(drives);
   }
 
   // Called just before this Command runs the first time
@@ -29,7 +28,7 @@ public class DefaultJoystickDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSubsystem.getDriveBase().arcadeDrive(-1.0 * Robot.m_oi.getXbox().getRawAxis(1), Robot.m_oi.getXbox().getRawAxis(4));
+    drives.driveMotors(0.25);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,13 +40,13 @@ public class DefaultJoystickDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    interrupted();
+    drives.stopMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    driveSubsystem.stopMotors();
+    drives.stopMotors();
   }
 }

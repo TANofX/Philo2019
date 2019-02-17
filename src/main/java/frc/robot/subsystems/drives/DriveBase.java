@@ -7,8 +7,12 @@
 
 package frc.robot.subsystems.drives;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.drives.DefaultJoystickDrive;
@@ -27,6 +31,8 @@ public class DriveBase extends Subsystem {
   private DriveMotor rightFollower1;
   private DriveMotor rightFollower2;
 
+  private Solenoid gearShift;
+
   private DifferentialDrive driveBase;
 
   public static int SPEED_CONTROL = 1;
@@ -40,7 +46,9 @@ public class DriveBase extends Subsystem {
                   , int leftFollower2CANId
                   , int rightMasterCANId
                   , int rightFollower1CANId
-                  , int rightFollower2CANId) {
+                  , int rightFollower2CANId
+                  , int pcmId
+                  , int gearShiftId) {
     /* Configure left side drive base motors.  We may need to create a subclass like we have used
        in prior years in order to use speed control */
     leftMasterMotor = new DriveMotor(leftMasterCANId);
@@ -53,6 +61,8 @@ public class DriveBase extends Subsystem {
     rightFollower1 = new DriveMotor(rightFollower1CANId);
     rightFollower2 = new DriveMotor(rightFollower2CANId);
 
+    gearShift = new Solenoid(pcmId, gearShiftId);
+
     leftFollower1.follow(leftMasterMotor);
     leftFollower2.follow(leftMasterMotor);
 
@@ -62,23 +72,25 @@ public class DriveBase extends Subsystem {
 		//We generally start in low gear, so let's set the state machine to that
 		//currentGearState = false;
 		
-		leftFollower1.setInverted(true);
+		leftFollower1.setInverted(InvertType.OpposeMaster);
 		leftMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
 
 		
-		rightFollower1.setInverted(true);
+		rightFollower1.setInverted(InvertType.OpposeMaster);
 		rightMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
 		
 		int timeoutMs = 10;
 		
-		leftMasterMotor.enableCurrentLimit(true);
-		leftFollower1.enableCurrentLimit(true);
-		leftFollower2.enableCurrentLimit(true);
+		// leftMasterMotor.enableCurrentLimit(true);
+		// leftFollower1.enableCurrentLimit(true);
+		// leftFollower2.enableCurrentLimit(true);
 		
-		rightMasterMotor.enableCurrentLimit(true);
-		rightFollower1.enableCurrentLimit(true);
-		rightFollower2.enableCurrentLimit(true);
-		
+		// rightMasterMotor.enableCurrentLimit(true);
+		// rightFollower1.enableCurrentLimit(true);
+		// rightFollower2.enableCurrentLimit(true);
+    leftMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    rightMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    
 		leftMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
 		leftMasterMotor.configAllowableClosedloopError(SPEED_CONTROL, (int)MAX_VELOCITY_ERROR, timeoutMs);
 		rightMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
@@ -103,7 +115,9 @@ public class DriveBase extends Subsystem {
 		rightMasterMotor.config_kI(SPEED_CONTROL, 0.0, timeoutMs);
 		rightMasterMotor.config_kD(SPEED_CONTROL, 0.0, timeoutMs);
 		rightMasterMotor.config_kF(SPEED_CONTROL, 0.2379, timeoutMs);
-				
+        
+    leftMasterMotor.selectProfileSlot(SPEED_CONTROL, 0);
+    rightMasterMotor.selectProfileSlot(SPEED_CONTROL, 0);
     driveBase = new DifferentialDrive(leftMasterMotor, rightMasterMotor);
   }
 
@@ -116,8 +130,8 @@ public class DriveBase extends Subsystem {
 
   public void stopMotors()
   {
-    leftMasterMotor.set(0);
-    rightMasterMotor.set(0);
+    leftMasterMotor.set(ControlMode.PercentOutput, 0);
+    rightMasterMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public DifferentialDrive getDriveBase()
@@ -126,7 +140,15 @@ public class DriveBase extends Subsystem {
   }
 
   public void driveMotors(double speed) {
-    leftMasterMotor.set(speed);
-    rightMasterMotor.set(speed);
+    leftMasterMotor.set(ControlMode.PercentOutput, speed);
+    rightMasterMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void highGear() {
+    gearShift.set(false);
+  }
+
+  public void lowGear() {
+    gearShift.set(true);
   }
 }
