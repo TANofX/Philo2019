@@ -22,7 +22,7 @@ public class ClimbToHeight extends Command {
   private Climber backClimber;
   private ClimberBrake climberBrake;
   private PidgeonIMU imu;
-  private static final double COMPENSATION = 40.0;
+  private static final double COMPENSATION = 500.0;
 
   public ClimbToHeight(Climber Front, Climber Back, ClimberBrake Brake, PidgeonIMU Pigeon, double heightInInches) {
     // Use requires() here to declare subsystem dependencies

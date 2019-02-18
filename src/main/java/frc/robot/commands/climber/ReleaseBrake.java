@@ -8,17 +8,16 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
+import edu.wpi.first.wpilibj.command.TimedCommand;
+import frc.robot.subsystems.climber.ClimberBrake;
 
-public class DefaultPigeon extends Command {
-  private PidgeonIMU pidgeonIMUSubsystem;
+public class ReleaseBrake extends TimedCommand {
+  private ClimberBrake climberBrake;
 
-  public DefaultPigeon(PidgeonIMU subsystem) {
-    pidgeonIMUSubsystem = subsystem;
-    requires(pidgeonIMUSubsystem);
-    
+  public ReleaseBrake(ClimberBrake brake) {
+  super (10.0);
+  climberBrake = brake;
+  requires(climberBrake);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -26,26 +25,24 @@ public class DefaultPigeon extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+  climberBrake.releaseBrake();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double [] ypr = pidgeonIMUSubsystem.getState();
-    SmartDashboard.putNumber("Yaw", ypr[0]);
-    SmartDashboard.putNumber("Pitch", ypr[2]);
-    SmartDashboard.putNumber("Roll", ypr[1]);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+  climberBrake.setBrake();
   }
 
   // Called when another command which requires one or more of the same

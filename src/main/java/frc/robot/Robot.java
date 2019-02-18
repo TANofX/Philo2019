@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
+import frc.robot.commands.climber.MotorOutput;
+import frc.robot.commands.climber.ReleaseBrake;
 import frc.robot.commands.climber.SynchronizedClimb;
 import frc.robot.commands.drives.AutomatedBreakIn;
 import frc.robot.commands.drives.AutomatedBreakInComplete;
@@ -77,13 +79,15 @@ public class Robot extends TimedRobot {
     m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
     m_oi.hatchPushOff.whenPressed(new HatchRelease(m_hatch));
 
-    SmartDashboard.putData("Calibrate Front", new CalibrateClimber(m_frontClimber));
-    SmartDashboard.putData("Calibrate Rear", new CalibrateClimber(m_rearClimber));
+    SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
 
     SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0));
+    SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0));
 
     SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
     SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));
+
+    SmartDashboard.putData("Release Brake", new ReleaseBrake(m_brake));
   }
 
   /**
@@ -157,6 +161,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    Scheduler.getInstance().add(new MotorOutput(m_frontClimber, "front"));
   }
 
   /**
