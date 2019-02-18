@@ -175,4 +175,12 @@ public class Climber extends Subsystem {
   public void liftPercent(double percentSpeed) {
     liftMotor.set(ControlMode.PercentOutput, percentSpeed);
   }
+  
+  public double motorVoltage() {
+    return liftMotor.getMotorOutputVoltage();
+  }
+
+  public double motorCurrent() {
+    return liftMotor.getOutputCurrent();
+  }
 }
