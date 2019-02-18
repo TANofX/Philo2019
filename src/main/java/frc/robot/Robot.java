@@ -14,18 +14,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
+import frc.robot.commands.climber.MoveDistance;
 import frc.robot.commands.climber.SynchronizedClimb;
 import frc.robot.commands.drives.AutomatedBreakIn;
 import frc.robot.commands.drives.AutomatedBreakInComplete;
 import frc.robot.commands.drives.DriveForward;
+import frc.robot.commands.drives.ShiftHighGear;
 import frc.robot.commands.hatch.HatchHingeToggle;
 import frc.robot.commands.hatch.HatchExtendToggle;
 import frc.robot.commands.hatch.HatchRelease;
+import frc.robot.commands.vision.CameraSwitcher;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
 import frc.robot.subsystems.drives.DriveBase;
 import frc.robot.subsystems.hatch.HatchCollector;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
+import frc.robot.subsystems.vision.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -58,6 +62,7 @@ public class Robot extends TimedRobot {
   public static PidgeonIMU m_pigeon = new PidgeonIMU(RobotMap.PIDGEON_IMU_ID);
   public static OI m_oi;
   public static ClimberBrake m_brake = new ClimberBrake(RobotMap.PCM_ID, RobotMap.LIFT_BRAKE_PCM_PORT);
+  public static Limelight m_vision = new Limelight();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -77,13 +82,10 @@ public class Robot extends TimedRobot {
     m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
     m_oi.hatchPushOff.whenPressed(new HatchRelease(m_hatch));
 
-    SmartDashboard.putData("Calibrate Front", new CalibrateClimber(m_frontClimber));
-    SmartDashboard.putData("Calibrate Rear", new CalibrateClimber(m_rearClimber));
+    m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
+    m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
 
-    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0));
-
-    SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
-    SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));
+    SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
   }
 
   /**

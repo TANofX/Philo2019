@@ -35,11 +35,28 @@ public class DriveBase extends Subsystem {
 
   private DifferentialDrive driveBase;
 
+  private double currentInchesPerTick;
+
   public static int SPEED_CONTROL = 1;
 	public static int POSITION_CONTROL = 0;
-	
+  
+  public static double LOW_GEAR_RAMP_RATE = 0.5;
+  public static double HIGHT_GEAR_RAMP_RATE = 1.0;
+
 	private static double MAX_POSITION_ERROR = 125.0;
 	private static double MAX_VELOCITY_ERROR = 50.0;
+
+  private static final double PRIMARY_GEAR_RATIO = 42.0 / 11.0;
+  private static final double SECONDARY_GEAR_RATIO_HIGH = 60.0 / 14.0;
+  private static final double SECONDARY_GEAR_RATIO_LOW = 50.0 / 14.0;
+
+  private static final int TICKS_PER_REVOLUTION_INPUT = 250 * 4; // Assuming quadrature encoding
+  private static final double TICKS_PER_REVOLUTION_OUTPUT_HIGH = TICKS_PER_REVOLUTION_INPUT * SECONDARY_GEAR_RATIO_HIGH * PRIMARY_GEAR_RATIO;
+  private static final double TICKS_PER_REVOLUTION_OUTPUT_LOW = TICKS_PER_REVOLUTION_INPUT * SECONDARY_GEAR_RATIO_LOW * PRIMARY_GEAR_RATIO;
+  private static final double WHEEL_DIAMETER_INCHES = 6.0;
+  private static final double WHEEL_CIRCUMFERENCE_INCHES = Math.PI * WHEEL_DIAMETER_INCHES;
+  private static final double INCHES_PER_TICK_HIGH = WHEEL_CIRCUMFERENCE_INCHES / TICKS_PER_REVOLUTION_OUTPUT_HIGH;
+  private static final double INCHES_PER_TICK_LOW = WHEEL_CIRCUMFERENCE_INCHES / TICKS_PER_REVOLUTION_OUTPUT_LOW;
 
   public DriveBase( int leftMasterCANId
                   , int leftFollower1CANId
@@ -122,7 +139,9 @@ public class DriveBase extends Subsystem {
     // leftMasterMotor.configMaxIntegralAccumulator(SPEED_CONTROL, 25000);
     // rightMasterMotor.configMaxIntegralAccumulator(SPEED_CONTROL, 25000);
     driveBase = new DifferentialDrive(leftMasterMotor, rightMasterMotor);
-    driveBase.setDeadband(0.07);
+    //driveBase.setDeadband(0.09);
+
+    lowGear();
   }
 
   @Override
@@ -148,11 +167,22 @@ public class DriveBase extends Subsystem {
     rightMasterMotor.set(ControlMode.PercentOutput, speed);
   }
 
+  public void driveSpeed(double speedInchesPerSecond) {
+    leftMasterMotor.set(ControlMode.Velocity, speedInchesPerSecond / currentInchesPerTick / 100.0);
+    rightMasterMotor.set(ControlMode.Velocity, -1 * speedInchesPerSecond / currentInchesPerTick / 100.0);
+  }
+
   public void highGear() {
-    gearShift.set(false);
+    leftMasterMotor.configClosedloopRamp(1.0);
+    rightMasterMotor.configClosedloopRamp(1.0);
+    gearShift.set(true);
+    currentInchesPerTick = INCHES_PER_TICK_HIGH;
   }
 
   public void lowGear() {
-    gearShift.set(true);
+    leftMasterMotor.configClosedloopRamp(0.5);
+    rightMasterMotor.configClosedloopRamp(0.5);
+    gearShift.set(false);
+    currentInchesPerTick = INCHES_PER_TICK_LOW;
   }
 }

@@ -112,6 +112,10 @@ public class Climber extends Subsystem {
     liftMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
+  public void stopDrive() {
+    driveMotor.set(ControlMode.PercentOutput, 0.0);
+  }
+
   public boolean goToHeightInches(double heightInches) {
     return goToHeightTicks((int)Math.round(heightInches * LIFT_ENCODER_PULSE_PER_INCH));
   }

@@ -8,6 +8,7 @@
 package frc.robot.commands.drives;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.ButtonMap;
 import frc.robot.Robot;
 import frc.robot.subsystems.drives.DriveBase;
 
@@ -29,7 +30,27 @@ public class DefaultJoystickDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSubsystem.getDriveBase().arcadeDrive(-1.0 * Robot.m_oi.getXbox().getRawAxis(1), Robot.m_oi.getXbox().getRawAxis(4), false);
+    double driveRate = -1.0 * Robot.m_oi.getXbox().getRawAxis(ButtonMap.DRIVE_AXIS);
+    double turnRate = Robot.m_oi.getXbox().getRawAxis(ButtonMap.TURN_AXIS);
+
+    if (Math.abs(driveRate) < 0.05) {
+      driveRate = 0.0;
+    }
+
+    if (Math.abs(turnRate) < 0.05) {
+      turnRate = 0.0;
+    }
+
+    // We want to adjust the turn rate based on the right analog trigger input
+    // In this case, we want the turn rate cut in half if the trigger is not pulled 
+    // and allowed to go to the maximum value when the trigger is pulled
+    // Since the trigger registers values from 0 to 1 instead of -1 to 1, we will
+    // Add one and divide by 2 to that the value returned goes from 0.5 to 1, we will then
+    // use this factor to adjust the turnRate value from the primary turn axis
+    turnRate *= (Robot.m_oi.getXbox().getRawAxis(ButtonMap.TURN_ADJUST_AXIS) + 1.0) / 2.0;
+    driveSubsystem.getDriveBase().arcadeDrive(  driveRate
+                                              , turnRate
+                                              , false);
   }
 
   // Make this return true when this Command no longer needs to run execute()

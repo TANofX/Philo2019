@@ -17,4 +17,12 @@ public class ButtonMap {
     public static int DETACH_HATCH = 2;
     public static int STICK = 1;
     public static int XBOX = 0;
+
+    public static int GEAR_SHIFT = 5;
+
+    public static int DRIVE_AXIS = 1;
+    public static int TURN_AXIS = 4;
+    public static int TURN_ADJUST_AXIS = 3;
+
+    public static int CAMERA_SWITCHER = 3;
 }

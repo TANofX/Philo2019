@@ -50,7 +50,9 @@ public class OI {
   Button climbMoveBackwards = new JoystickButton(stick, 12);
 
   //Buttons for drive
-
+  Button gearShiftButton = new JoystickButton(xbox, ButtonMap.GEAR_SHIFT);
+  Button cameraSwitchButton = new JoystickButton(xbox, ButtonMap.CAMERA_SWITCHER);
+  
   //Buttons for hatch
   Button hatchHinge = new JoystickButton(stick, ButtonMap.RAISE_LOWER);
 	Button hatchExtend = new JoystickButton(stick, ButtonMap.GRAB_HATCH);
