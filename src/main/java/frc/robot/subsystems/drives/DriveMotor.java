@@ -8,6 +8,7 @@
 package frc.robot.subsystems.drives;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class DriveMotor extends TalonSRX implements SpeedController {
 
-    public static final double MAX_SPEED = 4300.0;
+    public static final double MAX_SPEED = 7700.0;
     public static final int MAX_PEAK_AMPS = 80;
     public static final int MAX_PEAK_DURATION = 200;
     public static final int MAX_CONTINUOUS_AMPS = 39;
@@ -28,6 +29,8 @@ public class DriveMotor extends TalonSRX implements SpeedController {
         super(talonCANId);
         configVoltageCompSaturation(12.0, 0);
         enableVoltageCompensation(true);
+        configClosedloopRamp(0.4, 0);
+        setNeutralMode(NeutralMode.Coast);
     }
 
     @Override

@@ -9,6 +9,8 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberBrake;
+import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 
 /***
  * This Command sends the appropriate signals to the specified climber subsystem
@@ -16,13 +18,22 @@ import frc.robot.subsystems.climber.Climber;
  */
 public class ClimbToHeight extends Command {
   private double heightToClimb;
-  private Climber climberSubsystem;
+  private Climber frontClimber;
+  private Climber backClimber;
+  private ClimberBrake climberBrake;
+  private PidgeonIMU imu;
+  private static final double COMPENSATION = 40.0;
 
-  public ClimbToHeight(Climber subsystem, double heightInInches) {
+  public ClimbToHeight(Climber Front, Climber Back, ClimberBrake Brake, PidgeonIMU Pigeon, double heightInInches) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    climberSubsystem = subsystem;
-    requires(climberSubsystem);
+    frontClimber = Front;
+    requires(frontClimber);
+    backClimber = Back;
+    requires(backClimber);
+    climberBrake = Brake;
+    requires(climberBrake);
+    this.imu = Pigeon;
     
     heightToClimb = heightInInches;
   }
@@ -30,18 +41,21 @@ public class ClimbToHeight extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    climberSubsystem.goToHeightInches(heightToClimb);
+    climberBrake.releaseBrake();
+    frontClimber.goToHeightInches(heightToClimb);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double pitch = imu.getpitch();
+    backClimber.liftPercent(pitch * COMPENSATION);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (climberSubsystem.isAtHeightInches(heightToClimb)) {
+    if (frontClimber.isAtHeightInches(heightToClimb)) {
       return true;
     } else {
       return false;
@@ -51,11 +65,15 @@ public class ClimbToHeight extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    backClimber.stopLift();
+    frontClimber.stopLift();
+    climberBrake.setBrake();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

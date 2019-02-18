@@ -32,11 +32,11 @@ public class ClimbToLevel extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new SynchronizedClimb(frontClimber, rearClimber, heightInInches));
-    addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 15));
-    addSequential(new ClimbToHeight(frontClimber, 0));
-    addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 12));
-    addSequential(new ClimbToHeight(rearClimber, 0));
-    addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 3));
+    //addSequential(new SynchronizedClimb(frontClimber, rearClimber, heightInInches));
+    //addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 15));
+    //addSequential(new ClimbToHeight(frontClimber, 0));
+    //addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 12));
+    //addSequential(new ClimbToHeight(rearClimber, 0));
+    //addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 3));
   }
 }

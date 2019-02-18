@@ -171,4 +171,8 @@ public class Climber extends Subsystem {
      return false;
    } 
   }
+
+  public void liftPercent(double percentSpeed) {
+    liftMotor.set(ControlMode.PercentOutput, percentSpeed);
+  }
 }

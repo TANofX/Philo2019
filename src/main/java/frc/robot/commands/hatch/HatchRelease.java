@@ -9,13 +9,14 @@ package frc.robot.commands.hatch;
 
 
 
-import edu.wpi.first.wpilibj.command.Command;
+
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.subsystems.hatch.HatchCollector;
 
-public class HatchRelease extends Command {
+public class HatchRelease extends TimedCommand {
   private HatchCollector collector;
   public HatchRelease(HatchCollector hatch) {
-  super("hatch extend", 0.25);
+  super(0.25);
     collector = hatch;
   requires(collector); 
     // Use requires() here to declare subsystem dependencies
@@ -36,7 +37,7 @@ public class HatchRelease extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isTimedOut();
   }
 
   // Called once after isFinished returns true

@@ -22,6 +22,7 @@ import frc.robot.commands.hatch.HatchHingeToggle;
 import frc.robot.commands.hatch.HatchExtendToggle;
 import frc.robot.commands.hatch.HatchRelease;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberBrake;
 import frc.robot.subsystems.drives.DriveBase;
 import frc.robot.subsystems.hatch.HatchCollector;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
@@ -56,6 +57,7 @@ public class Robot extends TimedRobot {
                                                           , RobotMap.HINGE_RETRACT_DIO_PORT);
   public static PidgeonIMU m_pigeon = new PidgeonIMU(RobotMap.PIDGEON_IMU_ID);
   public static OI m_oi;
+  public static ClimberBrake m_brake = new ClimberBrake(RobotMap.PCM_ID, RobotMap.LIFT_BRAKE_PCM_PORT);
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -78,15 +80,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Calibrate Front", new CalibrateClimber(m_frontClimber));
     SmartDashboard.putData("Calibrate Rear", new CalibrateClimber(m_rearClimber));
 
-    SmartDashboard.putData("rear 0", new ClimbToHeight(m_rearClimber, 0));
-    SmartDashboard.putData("rear 7", new ClimbToHeight(m_rearClimber, 7));
-    SmartDashboard.putData("rear 19", new ClimbToHeight(m_rearClimber,19));
-
-    SmartDashboard.putData("front 0", new ClimbToHeight(m_frontClimber, 0));
-    SmartDashboard.putData("front 7", new ClimbToHeight(m_frontClimber, 7));
-    SmartDashboard.putData("front 19", new ClimbToHeight(m_frontClimber, 19));
-
-    SmartDashboard.putData("Sync 4", new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
+    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0));
 
     SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
     SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));

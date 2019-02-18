@@ -69,6 +69,9 @@ public class DriveBase extends Subsystem {
     rightFollower1.follow(rightMasterMotor);
     rightFollower2.follow(rightMasterMotor);
 
+    //leftMasterMotor.selectProfileSlot(0, SPEED_CONTROL);
+    //rightMasterMotor.selectProfileSlot(0, SPEED_CONTROL);
+
 		//We generally start in low gear, so let's set the state machine to that
 		//currentGearState = false;
 		
@@ -90,35 +93,36 @@ public class DriveBase extends Subsystem {
 		// rightFollower2.enableCurrentLimit(true);
     leftMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    
-		leftMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
-		leftMasterMotor.configAllowableClosedloopError(SPEED_CONTROL, (int)MAX_VELOCITY_ERROR, timeoutMs);
-		rightMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
-		rightMasterMotor.configAllowableClosedloopError(SPEED_CONTROL, (int)MAX_VELOCITY_ERROR, timeoutMs);
+
+		// leftMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
+		// leftMasterMotor.configAllowableClosedloopError(SPEED_CONTROL, (int)MAX_VELOCITY_ERROR, timeoutMs);
+		// rightMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
+		// rightMasterMotor.configAllowableClosedloopError(SPEED_CONTROL, (int)MAX_VELOCITY_ERROR, timeoutMs);
 		
-		leftMasterMotor.config_kP(POSITION_CONTROL, 1.0, timeoutMs);
-		leftMasterMotor.config_kI(POSITION_CONTROL, 0.0, timeoutMs);
-		leftMasterMotor.config_kD(POSITION_CONTROL, 0.0, timeoutMs);
-		leftMasterMotor.config_kF(POSITION_CONTROL, 0.2379, timeoutMs);
+		// leftMasterMotor.config_kP(POSITION_CONTROL, 1.0, timeoutMs);
+		// leftMasterMotor.config_kI(POSITION_CONTROL, 0.0, timeoutMs);
+		// leftMasterMotor.config_kD(POSITION_CONTROL, 0.0, timeoutMs);
+		// leftMasterMotor.config_kF(POSITION_CONTROL, 0.2379, timeoutMs);
 		
-		leftMasterMotor.config_kP(SPEED_CONTROL, 0.1, timeoutMs);
-		leftMasterMotor.config_kI(SPEED_CONTROL, 0.0, timeoutMs);
-		leftMasterMotor.config_kD(SPEED_CONTROL, 0.0, timeoutMs);
-		leftMasterMotor.config_kF(SPEED_CONTROL, 0.2379, timeoutMs);
+		// leftMasterMotor.config_kP(SPEED_CONTROL, 2.0, timeoutMs);
+		// leftMasterMotor.config_kI(SPEED_CONTROL, 0.0, timeoutMs);
+		// leftMasterMotor.config_kD(SPEED_CONTROL, 0.0, timeoutMs);
+		// leftMasterMotor.config_kF(SPEED_CONTROL, 0.01, timeoutMs);
 		
-		rightMasterMotor.config_kP(POSITION_CONTROL, 1.0, timeoutMs);
-		rightMasterMotor.config_kI(POSITION_CONTROL, 0.0, timeoutMs);
-		rightMasterMotor.config_kD(POSITION_CONTROL, 0.0, timeoutMs);
-		rightMasterMotor.config_kF(POSITION_CONTROL, 0.2379, timeoutMs);
+		// rightMasterMotor.config_kP(POSITION_CONTROL, 1.0, timeoutMs);
+		// rightMasterMotor.config_kI(POSITION_CONTROL, 0.0, timeoutMs);
+		// rightMasterMotor.config_kD(POSITION_CONTROL, 0.0, timeoutMs);
+		// rightMasterMotor.config_kF(POSITION_CONTROL, 0.2379, timeoutMs);
 		
-		rightMasterMotor.config_kP(SPEED_CONTROL, 0.1, timeoutMs);
-		rightMasterMotor.config_kI(SPEED_CONTROL, 0.0, timeoutMs);
-		rightMasterMotor.config_kD(SPEED_CONTROL, 0.0, timeoutMs);
-		rightMasterMotor.config_kF(SPEED_CONTROL, 0.2379, timeoutMs);
+		// rightMasterMotor.config_kP(SPEED_CONTROL, 2.0, timeoutMs);
+		// rightMasterMotor.config_kI(SPEED_CONTROL, 0.0, timeoutMs);
+		// rightMasterMotor.config_kD(SPEED_CONTROL, 0.0, timeoutMs);
+		// rightMasterMotor.config_kF(SPEED_CONTROL, 0.01, timeoutMs);
         
-    leftMasterMotor.selectProfileSlot(SPEED_CONTROL, 0);
-    rightMasterMotor.selectProfileSlot(SPEED_CONTROL, 0);
+    // leftMasterMotor.configMaxIntegralAccumulator(SPEED_CONTROL, 25000);
+    // rightMasterMotor.configMaxIntegralAccumulator(SPEED_CONTROL, 25000);
     driveBase = new DifferentialDrive(leftMasterMotor, rightMasterMotor);
+    driveBase.setDeadband(0.07);
   }
 
   @Override
