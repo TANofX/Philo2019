@@ -39,7 +39,7 @@ public PidgeonIMU(int pidgeonID) {
   public double getpitch() {
     double [] ypr = new double [3];
     imu.getYawPitchRoll(ypr);
-    return ypr[1];
+    return ypr[2];
   }
   
   public void zeroyaw() {

@@ -9,6 +9,7 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberBrake;
 
 /***
  * This Command sends the appropriate signals to the specified climber subsystem
@@ -16,19 +17,26 @@ import frc.robot.subsystems.climber.Climber;
  */
 public class CalibrateClimber extends Command {
   private Climber climberSubsystem;
+  private Climber frontClimber;
+  private ClimberBrake climberBrake;
 
-  public CalibrateClimber(Climber subsystem) {
+  public CalibrateClimber(Climber front, Climber subsystem, ClimberBrake brake) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    super("Calibrate Climber", 0.5);
+    //super("Calibrate Climber", 0.5);
+    frontClimber = front;
+    requires(frontClimber);
     climberSubsystem = subsystem;
     requires(climberSubsystem);
+    climberBrake = brake;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    climberBrake.releaseBrake();
     climberSubsystem.calibrateLift();
+    frontClimber.calibrateLift();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,7 +47,7 @@ public class CalibrateClimber extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return climberSubsystem.getTopLimitSwitch();
+    return (climberSubsystem.getTopLimitSwitch() && frontClimber.getTopLimitSwitch());
   }
 
   // Called once after isFinished returns true
@@ -47,13 +55,15 @@ public class CalibrateClimber extends Command {
   protected void end() {
     climberSubsystem.stopLift();
     climberSubsystem.zeroClimber();
+    frontClimber.stopLift();
+    frontClimber.zeroClimber();
+    climberBrake.setBrake();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    climberSubsystem.stopLift();
-    climberSubsystem.zeroClimber();
+    end();
   }
 }

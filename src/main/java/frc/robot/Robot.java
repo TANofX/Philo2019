@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
 import frc.robot.commands.climber.MoveDistance;
+import frc.robot.commands.climber.MotorOutput;
+import frc.robot.commands.climber.ReleaseBrake;
 import frc.robot.commands.climber.SynchronizedClimb;
 import frc.robot.commands.drives.AutomatedBreakIn;
 import frc.robot.commands.drives.AutomatedBreakInComplete;
@@ -73,6 +75,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    //m_frontClimber.enableLiftCompensation();
     m_oi = new OI();
   //  m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -86,6 +89,18 @@ public class Robot extends TimedRobot {
     m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
 
     SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
+    SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
+
+    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5));
+    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0));
+    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 8.0));
+    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0));
+    SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0));
+
+    SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
+    SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));
+
+    SmartDashboard.putData("Release Brake", new ReleaseBrake(m_brake));
   }
 
   /**
@@ -159,6 +174,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    Scheduler.getInstance().add(new MotorOutput(m_frontClimber, "front"));
   }
 
   /**
