@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drives.DefaultJoystickDrive;
 
 /**
@@ -164,12 +165,15 @@ public class DriveBase extends Subsystem {
 
   public void driveMotors(double speed) {
     leftMasterMotor.set(ControlMode.PercentOutput, speed);
-    rightMasterMotor.set(ControlMode.PercentOutput, speed);
+    rightMasterMotor.set(ControlMode.PercentOutput, -1 * speed);
   }
 
-  public void driveSpeed(double speedInchesPerSecond) {
-    leftMasterMotor.set(ControlMode.Velocity, speedInchesPerSecond / currentInchesPerTick / 100.0);
-    rightMasterMotor.set(ControlMode.Velocity, -1 * speedInchesPerSecond / currentInchesPerTick / 100.0);
+  public void climbSpeed() {
+    // leftMasterMotor.set(ControlMode.Velocity, speedInchesPerSecond / currentInchesPerTick / 100.0);
+    // rightMasterMotor.set(ControlMode.Velocity, -1 * speedInchesPerSecond / currentInchesPerTick / 100.0);
+    //leftMasterMotor.set(ControlMode.Velocity, 24000.0);
+    //rightMasterMotor.set(ControlMode.Velocity, -24000.0);
+    driveBase.arcadeDrive(0.35, 0.0);
   }
 
   public void highGear() {
@@ -184,5 +188,13 @@ public class DriveBase extends Subsystem {
     rightMasterMotor.configClosedloopRamp(0.5);
     gearShift.set(false);
     currentInchesPerTick = INCHES_PER_TICK_LOW;
+  }
+
+  public void dashboardOutput() {
+    SmartDashboard.putNumber("Left Velocity", leftMasterMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Velocity", rightMasterMotor.getSelectedSensorVelocity());
+
+    SmartDashboard.putNumber("Left Position", leftMasterMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right Position", rightMasterMotor.getSelectedSensorPosition());
   }
 }

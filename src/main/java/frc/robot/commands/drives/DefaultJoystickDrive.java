@@ -48,9 +48,15 @@ public class DefaultJoystickDrive extends Command {
     // Add one and divide by 2 to that the value returned goes from 0.5 to 1, we will then
     // use this factor to adjust the turnRate value from the primary turn axis
     turnRate *= (Robot.m_oi.getXbox().getRawAxis(ButtonMap.TURN_ADJUST_AXIS) + 1.0) / 2.0;
+    driveRate *= (Robot.m_oi.getXbox().getRawAxis(ButtonMap.TURN_ADJUST_AXIS) + 1.0) / 2.0;
+    if ((Math.abs(driveRate) < 0.05)
+        && (Math.abs(turnRate) < 0.05)) {
+        driveSubsystem.stopMotors();
+    } else {
     driveSubsystem.getDriveBase().arcadeDrive(  driveRate
                                               , turnRate
                                               , false);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

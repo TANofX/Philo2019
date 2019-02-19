@@ -28,7 +28,7 @@ public class DriveMotor extends TalonSRX implements SpeedController {
     public DriveMotor(int talonCANId) {
         super(talonCANId);
         configVoltageCompSaturation(12.0, 0);
-        enableVoltageCompensation(true);
+        enableVoltageCompensation(false);
         configClosedloopRamp(0.4, 0);
         setNeutralMode(NeutralMode.Coast);
     }

@@ -49,15 +49,15 @@ public class MoveDistance extends Command {
   @Override
   protected void execute() {
     //driveBaseSubsystem.driveSpeed(1);
-    climberSubsystem.driveSpeed(1);
-    climberSubsystem2.driveSpeed(1);
-    driveBaseSubsystem.driveSpeed(1);
+    climberSubsystem.climbSpeed();
+    climberSubsystem2.climbSpeed();
+    driveBaseSubsystem.climbSpeed();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ((climberSubsystem.isAtPosInches(distanceToMove + startingDist1) && climberSubsystem2.isAtPosInches(distanceToMove + startingDist2))
+    if ((climberSubsystem.isAtPosInches(startingDist1 - distanceToMove) && climberSubsystem2.isAtPosInches(startingDist2 - distanceToMove))
     || (climberSubsystem.getDriveLimitSwitch())
     || (climberSubsystem2.getDriveLimitSwitch())) {
       return true;

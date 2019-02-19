@@ -22,7 +22,7 @@ import frc.robot.commands.climber.HoldPosition;
 public class Climber extends Subsystem {
   private static final double CLIMB_DURATION_SECONDS = 3.0;
   private static final double ALLOWED_HEIGHT_ERROR_INCHES = 0.25;
-  private static final double ALLOWED_DRIVE_ERROR_INCHES = 0.125;
+  private static final double ALLOWED_DRIVE_ERROR_INCHES = 0.5;
   private static final double CALIBRATION_SPEED = 0.25; //Driving motor in a positive direction goes down, driving negative goes up
   private static final double DRIVE_SCALE_FACTOR = -1.0; 
 
@@ -158,6 +158,10 @@ public class Climber extends Subsystem {
   public void driveSpeed(double speedInchesPerSec) {
     double pulsesPer100MilliSec = DRIVE_SCALE_FACTOR * speedInchesPerSec * DRIVE_ENCODER_PULSE_PER_INCH / 10.0;
     driveMotor.set(ControlMode.Velocity, pulsesPer100MilliSec);
+  }
+
+  public void climbSpeed() {
+    driveSpeed(6.0);
   }
 
   public boolean isAtHeightInches(double targetHeight) {

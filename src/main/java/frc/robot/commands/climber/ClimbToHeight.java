@@ -17,14 +17,15 @@ import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
  * to move to a given height (up or down) form it's current position.
  */
 public class ClimbToHeight extends Command {
-  private double heightToClimb;
+  private double frontHeight;
+  private double rearHeight;
   private Climber frontClimber;
   private Climber backClimber;
   private ClimberBrake climberBrake;
   private PidgeonIMU imu;
   private static final double COMPENSATION = 50.0;
 
-  public ClimbToHeight(Climber Front, Climber Back, ClimberBrake Brake, PidgeonIMU Pigeon, double heightInInches) {
+  public ClimbToHeight(Climber Front, Climber Back, ClimberBrake Brake, PidgeonIMU Pigeon, double frontHeightInInches, double backHeightInInches) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     frontClimber = Front;
@@ -35,15 +36,16 @@ public class ClimbToHeight extends Command {
     requires(climberBrake);
     this.imu = Pigeon;
     
-    heightToClimb = heightInInches;
+    frontHeight = frontHeightInInches;
+    rearHeight = backHeightInInches;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     climberBrake.releaseBrake();
-    frontClimber.goToHeightInches(heightToClimb + 1.0);
-    backClimber.goToHeightInches(heightToClimb);
+    frontClimber.goToHeightInches(frontHeight);
+    backClimber.goToHeightInches(rearHeight);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -57,7 +59,7 @@ public class ClimbToHeight extends Command {
   @Override
   protected boolean isFinished() {
 //    if (frontClimber.isAtHeightInches(heightToClimb)) {
-    if (frontClimber.isAtHeightInches(heightToClimb) && backClimber.isAtHeightInches(heightToClimb)) {
+    if (frontClimber.isAtHeightInches(frontHeight) && backClimber.isAtHeightInches(rearHeight)) {
         return true;
     } else {
       return false;

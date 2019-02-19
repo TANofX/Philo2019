@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
+import frc.robot.commands.climber.ClimbToLevel;
 import frc.robot.commands.climber.MoveDistance;
 import frc.robot.commands.climber.MotorOutput;
 import frc.robot.commands.climber.ReleaseBrake;
@@ -91,11 +92,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
     SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
 
-    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5));
-    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0));
-    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 8.0));
-    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0));
-    SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0));
+    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, 19.5));
+    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 15.0, 14.0));
+    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 9.0, 8.0));
+    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 5.0, 4.0));
+    SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
+
+    SmartDashboard.putData("Full Low Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
+    SmartDashboard.putData("Full High Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, m_drives));
 
     SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
     SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));
