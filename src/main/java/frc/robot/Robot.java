@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    //m_frontClimber.enableLiftCompensation();
     m_oi = new OI();
   //  m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -81,6 +82,9 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
 
+    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5));
+    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0));
+    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 8.0));
     SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0));
     SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0));
 

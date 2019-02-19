@@ -22,7 +22,7 @@ public class ClimbToHeight extends Command {
   private Climber backClimber;
   private ClimberBrake climberBrake;
   private PidgeonIMU imu;
-  private static final double COMPENSATION = 500.0;
+  private static final double COMPENSATION = 50.0;
 
   public ClimbToHeight(Climber Front, Climber Back, ClimberBrake Brake, PidgeonIMU Pigeon, double heightInInches) {
     // Use requires() here to declare subsystem dependencies
@@ -42,21 +42,23 @@ public class ClimbToHeight extends Command {
   @Override
   protected void initialize() {
     climberBrake.releaseBrake();
-    frontClimber.goToHeightInches(heightToClimb);
+    frontClimber.goToHeightInches(heightToClimb + 1.0);
+    backClimber.goToHeightInches(heightToClimb);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double pitch = imu.getpitch();
-    backClimber.liftPercent(pitch * COMPENSATION);
+    // double pitch = imu.getpitch();
+    // backClimber.liftPercent(pitch * COMPENSATION);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (frontClimber.isAtHeightInches(heightToClimb)) {
-      return true;
+//    if (frontClimber.isAtHeightInches(heightToClimb)) {
+    if (frontClimber.isAtHeightInches(heightToClimb) && backClimber.isAtHeightInches(heightToClimb)) {
+        return true;
     } else {
       return false;
     }
