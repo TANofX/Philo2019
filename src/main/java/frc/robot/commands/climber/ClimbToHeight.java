@@ -8,6 +8,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
@@ -53,6 +54,10 @@ public class ClimbToHeight extends Command {
   protected void execute() {
     // double pitch = imu.getpitch();
     // backClimber.liftPercent(pitch * COMPENSATION);
+    SmartDashboard.putNumber("Front Target", frontClimber.getLiftVelocityTarget());
+    SmartDashboard.putNumber("Rear Target", backClimber.getLiftVelocityTarget());
+    SmartDashboard.putNumber("Front Velocity", frontClimber.getLiftVelocity());
+    SmartDashboard.putNumber("Rear Velocity", backClimber.getLiftVelocity());
   }
 
   // Make this return true when this Command no longer needs to run execute()

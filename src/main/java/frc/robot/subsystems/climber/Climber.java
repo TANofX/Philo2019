@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.climber.HoldPosition;
 
 /**
  * Add your docs here.
@@ -22,7 +21,7 @@ import frc.robot.commands.climber.HoldPosition;
 public class Climber extends Subsystem {
   private static final double CLIMB_DURATION_SECONDS = 3.0;
   private static final double ALLOWED_HEIGHT_ERROR_INCHES = 0.25;
-  private static final double ALLOWED_DRIVE_ERROR_INCHES = 0.5;
+  private static final double ALLOWED_DRIVE_ERROR_INCHES = 1.00;
   private static final double CALIBRATION_SPEED = 0.25; //Driving motor in a positive direction goes down, driving negative goes up
   private static final double DRIVE_SCALE_FACTOR = -1.0; 
 
@@ -31,7 +30,7 @@ public class Climber extends Subsystem {
   private static final double ENCODER_PULSE_PER_REVOLUTION = 4096.0; // VEX Planetary Encoder with 4096 CPR
   private static final double LIFT_ENCODER_PULSE_PER_INCH = ENCODER_PULSE_PER_REVOLUTION / LEAD_SCREW_PITCH;
   //private static final double LIFT_ALLOWED_ERROR_PULSES = LIFT_ENCODER_PULSE_PER_INCH * ALLOWED_HEIGHT_ERROR_INCHES;
-  private static final int LIFT_CRUISE_VELOCITY = (int)(6.0 * LIFT_ENCODER_PULSE_PER_INCH / 100.0);
+  private static final int LIFT_CRUISE_VELOCITY = 2800;// Theoretically, this value is in RPM of the lead screw // Original value with kF = 0.249799967 and kP = 1.0 = (int)(6.0 * LIFT_ENCODER_PULSE_PER_INCH / 100.0);
   private static int LIFT_PROFILE = 0;
   private static int LIFT_ALLOWED_ERROR = (int)Math.abs(Math.round(LIFT_ENCODER_PULSE_PER_INCH * ALLOWED_HEIGHT_ERROR_INCHES));
   private static double LIFT_MAX_ACCUMULATOR = 40000.0;
@@ -70,8 +69,8 @@ public class Climber extends Subsystem {
     // liftMotor.config_kF(LIFT_PROFILE, 0.0, 0);
     // liftMotor.configAllowableClosedloopError(LIFT_PROFILE, LIFT_ALLOWED_ERROR);
     // liftMotor.configMaxIntegralAccumulator(LIFT_PROFILE, LIFT_MAX_ACCUMULATOR);
-    liftMotor.configMotionAcceleration(LIFT_CRUISE_VELOCITY);
-    liftMotor.configMotionCruiseVelocity(LIFT_CRUISE_VELOCITY * 2);
+    liftMotor.configMotionAcceleration((int)(LIFT_CRUISE_VELOCITY * 6));
+    liftMotor.configMotionCruiseVelocity(LIFT_CRUISE_VELOCITY);
     // liftMotor.configClearPositionOnLimitR(true, 0);
 
     driveMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
@@ -195,5 +194,13 @@ public class Climber extends Subsystem {
 
   public void enableLiftCompensation() {
     liftMotor.enableVoltageCompensation(true);
+  }
+
+  public double getLiftVelocityTarget() {
+    return liftMotor.getActiveTrajectoryVelocity();
+  }
+
+  public double getLiftVelocity() {
+    return liftMotor.getSelectedSensorVelocity();
   }
 }

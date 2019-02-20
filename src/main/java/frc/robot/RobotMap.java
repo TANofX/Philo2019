@@ -52,4 +52,6 @@ public class RobotMap {
 
   public static final int HINGE_EXTEND_DIO_PORT = 0;
   public static final int HINGE_RETRACT_DIO_PORT = 1;
+
+  public static final int PRESSURE_GAUGE_ANALOGUE_INPUT = 0;
 }

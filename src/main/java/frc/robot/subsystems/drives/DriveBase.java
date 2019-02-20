@@ -197,4 +197,8 @@ public class DriveBase extends Subsystem {
     SmartDashboard.putNumber("Left Position", leftMasterMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Position", rightMasterMotor.getSelectedSensorPosition());
   }
+
+  public boolean isHighGear() {
+    return gearShift.get();
+  }
 }

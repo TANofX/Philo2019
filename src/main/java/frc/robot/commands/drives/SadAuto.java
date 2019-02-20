@@ -5,51 +5,49 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.hatch;
+package frc.robot.commands.drives;
 
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.drives.DriveBase;
 
+public class SadAuto extends Command {
+  
+  private DriveBase drives;
+  
+  public SadAuto(DriveBase dBase) {
 
-
-import edu.wpi.first.wpilibj.command.TimedCommand;
-import frc.robot.subsystems.hatch.HatchCollector;
-
-public class HatchRelease extends TimedCommand {
-  private HatchCollector collector;
-  public HatchRelease(HatchCollector hatch) {
-  super(0.25);
-    collector = hatch;
-  requires(collector); 
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    drives = dBase;
+    requires(drives);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    collector.hatchRelease(true);
+  protected void initialize() { 
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    drives.getDriveBase().arcadeDrive(0.3, 0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    collector.hatchRelease(false);
+    drives.stopMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    collector.hatchRelease(false);
   }
 }

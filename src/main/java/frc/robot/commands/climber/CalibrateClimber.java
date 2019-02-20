@@ -8,6 +8,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
 
@@ -42,6 +43,10 @@ public class CalibrateClimber extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    SmartDashboard.putNumber("Front Target", frontClimber.getLiftVelocityTarget());
+    SmartDashboard.putNumber("Rear Target", climberSubsystem.getLiftVelocityTarget());
+    SmartDashboard.putNumber("Front Velocity", frontClimber.getLiftVelocity());
+    SmartDashboard.putNumber("Rear Velocity", climberSubsystem.getLiftVelocity());
   }
 
   // Make this return true when this Command no longer needs to run execute()

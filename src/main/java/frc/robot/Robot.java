@@ -18,6 +18,7 @@ import frc.robot.commands.climber.ClimbToLevel;
 import frc.robot.commands.climber.MoveDistance;
 import frc.robot.commands.climber.MotorOutput;
 import frc.robot.commands.climber.ReleaseBrake;
+import frc.robot.commands.climber.ReverseCalibrateClimber;
 import frc.robot.commands.climber.SynchronizedClimb;
 import frc.robot.commands.drives.AutomatedBreakIn;
 import frc.robot.commands.drives.AutomatedBreakInComplete;
@@ -31,6 +32,7 @@ import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
 import frc.robot.subsystems.drives.DriveBase;
 import frc.robot.subsystems.hatch.HatchCollector;
+import frc.robot.subsystems.hatch.PressureGauge;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 import frc.robot.subsystems.vision.Limelight;
 
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
   public static ClimberBrake m_brake = new ClimberBrake(RobotMap.PCM_ID, RobotMap.LIFT_BRAKE_PCM_PORT);
   public static Limelight m_vision = new Limelight();
+  public static PressureGauge m_pressureGuage = new PressureGauge(RobotMap.PRESSURE_GAUGE_ANALOGUE_INPUT);
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -84,18 +87,19 @@ public class Robot extends TimedRobot {
   //  m_oi.frontClimbButton.whileHeld(new SynchronizedClimb(m_frontClimber, m_rearClimber, 4.0));
     m_oi.hatchHinge.whenPressed(new HatchHingeToggle(m_hatch));
     m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
-    m_oi.hatchPushOff.whenPressed(new HatchRelease(m_hatch));
+    m_oi.hatchPushOff.whileHeld(new HatchRelease(m_hatch));
 
     m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
     m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
 
     SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
     SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
+    SmartDashboard.putData("Do NOT Push", new ReverseCalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
 
-    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, 19.5));
-    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 15.0, 14.0));
-    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 9.0, 8.0));
-    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 5.0, 4.0));
+    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5, 19.5));
+    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0, 14.0));
+    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 8.0, 8.0));
+    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0, 4.0));
     SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
 
     SmartDashboard.putData("Full Low Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
