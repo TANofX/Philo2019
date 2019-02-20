@@ -11,70 +11,54 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
-import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 
 /***
  * This Command sends the appropriate signals to the specified climber subsystem
  * to move to a given height (up or down) form it's current position.
  */
-public class ClimbToHeight extends Command {
-  private double frontHeight;
-  private double rearHeight;
+public class ReverseCalibrateClimber extends Command {
+  private Climber climberSubsystem;
   private Climber frontClimber;
-  private Climber backClimber;
   private ClimberBrake climberBrake;
-  private PidgeonIMU imu;
-  private static final double COMPENSATION = 50.0;
 
-  public ClimbToHeight(Climber Front, Climber Back, ClimberBrake Brake, PidgeonIMU Pigeon, double frontHeightInInches, double backHeightInInches) {
+  public ReverseCalibrateClimber(Climber front, Climber subsystem, ClimberBrake brake) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    frontClimber = Front;
+    //super("Calibrate Climber", 0.5);
+    frontClimber = front;
     requires(frontClimber);
-    backClimber = Back;
-    requires(backClimber);
-    climberBrake = Brake;
-    requires(climberBrake);
-    this.imu = Pigeon;
-    
-    frontHeight = frontHeightInInches;
-    rearHeight = backHeightInInches;
+    climberSubsystem = subsystem;
+    requires(climberSubsystem);
+    climberBrake = brake;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     climberBrake.releaseBrake();
-    frontClimber.goToHeightInches(frontHeight);
-    backClimber.goToHeightInches(rearHeight);
+    climberSubsystem.liftPercent(-1.0);;
+    frontClimber.liftPercent(-1.0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // double pitch = imu.getpitch();
-    // backClimber.liftPercent(pitch * COMPENSATION);
     SmartDashboard.putNumber("Front Target", frontClimber.getLiftVelocityTarget());
-    SmartDashboard.putNumber("Rear Target", backClimber.getLiftVelocityTarget());
+    SmartDashboard.putNumber("Rear Target", climberSubsystem.getLiftVelocityTarget());
     SmartDashboard.putNumber("Front Velocity", frontClimber.getLiftVelocity());
-    SmartDashboard.putNumber("Rear Velocity", backClimber.getLiftVelocity());
+    SmartDashboard.putNumber("Rear Velocity", climberSubsystem.getLiftVelocity());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-//    if (frontClimber.isAtHeightInches(heightToClimb)) {
-    if (frontClimber.isAtHeightInches(frontHeight) && backClimber.isAtHeightInches(rearHeight)) {
-        return true;
-    } else {
-      return false;
-    }
+    return (climberSubsystem.getBottomLimitSwitch() && frontClimber.getBottomLimitSwitch());
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    backClimber.stopLift();
+    climberSubsystem.stopLift();
     frontClimber.stopLift();
     climberBrake.setBrake();
   }
