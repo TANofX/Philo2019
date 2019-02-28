@@ -89,8 +89,16 @@ public class Robot extends TimedRobot {
     m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
     m_oi.hatchPushOff.whileHeld(new HatchRelease(m_hatch));
 
-    m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
+    //m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
     m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
+
+    m_oi.highGearButton.whileHeld(new ShiftHighGear(m_drives));
+    //confused on what to do for low gear
+    //m_oi.lowGearButton.whileHeld(new ShiftLowGear(m_drives));
+   
+    m_oi.climbLevelThreeButton.whenPressed(new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, m_drives));
+    m_oi.climblevelTwoButton.whenPressed( new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
+    m_oi.zeroClimberButton.whenPressed(new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
 
     SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
     SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
