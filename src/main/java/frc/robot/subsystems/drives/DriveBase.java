@@ -168,12 +168,15 @@ public class DriveBase extends Subsystem {
     rightMasterMotor.set(ControlMode.PercentOutput, -1 * speed);
   }
 
-  public void climbSpeed() {
+  public void climbSpeed(boolean reverse) {
     // leftMasterMotor.set(ControlMode.Velocity, speedInchesPerSecond / currentInchesPerTick / 100.0);
     // rightMasterMotor.set(ControlMode.Velocity, -1 * speedInchesPerSecond / currentInchesPerTick / 100.0);
     //leftMasterMotor.set(ControlMode.Velocity, 24000.0);
     //rightMasterMotor.set(ControlMode.Velocity, -24000.0);
-    driveBase.arcadeDrive(0.35, 0.0);
+    double speed = 0.35;
+    if (reverse) speed *= -1.0;
+
+    driveBase.arcadeDrive(speed, 0.0);
   }
 
   public void highGear() {

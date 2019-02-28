@@ -7,14 +7,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.command.Command;
 
 public class ButtonMap {
     //This class will be used to list all the locations of joystick buttons
     // As of 2/9/2018, all joystick buttons are TEMPORARY. Do not use these for reference.
-    public static int RAISE_LOWER = 5;
-    public static int GRAB_HATCH = 2;
-    public static int DETACH_HATCH = 1;
     public static int STICK = 1;
     public static int XBOX = 0;
 
@@ -25,4 +21,15 @@ public class ButtonMap {
     public static int TURN_ADJUST_AXIS = 3;
 
     public static int CAMERA_SWITCHER = 3;
+
+    //Joystick buttons
+    public static int RAISE_LOWER = 5;
+    public static int GRAB_HATCH = 2;
+    public static int DETACH_HATCH = 1;
+    public static int FRONT_UP = 7;
+    public static int BACK_UP = 8;
+    public static int FRONT_DOWN = 9;
+    public static int BACK_DOWN = 10;
+    public static int DRIVE_FORWARD = 11;
+    public static int DRIVE_BACKWARD = 12;
 }

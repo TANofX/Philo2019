@@ -49,9 +49,10 @@ public class MoveDistance extends Command {
   @Override
   protected void execute() {
     //driveBaseSubsystem.driveSpeed(1);
-    climberSubsystem.climbSpeed();
-    climberSubsystem2.climbSpeed();
-    driveBaseSubsystem.climbSpeed();
+    boolean reverse = distanceToMove < 0.0;
+    climberSubsystem.climbSpeed(reverse);
+    climberSubsystem2.climbSpeed(reverse);
+    driveBaseSubsystem.climbSpeed(reverse);
   }
 
   // Make this return true when this Command no longer needs to run execute()

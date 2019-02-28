@@ -7,16 +7,10 @@
 
 package frc.robot;
 
-import frc.robot.*;
-import frc.robot.commands.climber.*;
-import frc.robot.commands.drives.*;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.climber.ClimbToHeight;
-import frc.robot.commands.climber.ClimbToLevel;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -40,14 +34,14 @@ public class OI {
   //Button climberAutolvl3 = new JoystickButton(xbox, xboxbuttonB);
   //"Xboxbutton" is a placeholder until I figure out what actually goes in there.
 
-  Button frontClimbUp = new JoystickButton(stick, 7);
-  Button backClimbUp = new JoystickButton(stick, 8);
+  Button frontClimbUp = new JoystickButton(stick, ButtonMap.FRONT_UP);
+  Button backClimbUp = new JoystickButton(stick, ButtonMap.BACK_UP);
 
-  Button frontClimbDown = new JoystickButton(stick, 9);
-  Button backClimbDown = new JoystickButton(stick, 10);
+  Button frontClimbDown = new JoystickButton(stick, ButtonMap.FRONT_DOWN);
+  Button backClimbDown = new JoystickButton(stick, ButtonMap.BACK_DOWN);
 
-  Button climbMoveForward = new JoystickButton(stick, 11);
-  Button climbMoveBackwards = new JoystickButton(stick, 12);
+  Button climbMoveForward = new JoystickButton(stick, ButtonMap.DRIVE_FORWARD);
+  Button climbMoveBackwards = new JoystickButton(stick, ButtonMap.DRIVE_BACKWARD);
 
   //Buttons for drive
   Button gearShiftButton = new JoystickButton(xbox, ButtonMap.GEAR_SHIFT);

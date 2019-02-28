@@ -7,7 +7,7 @@
 
 package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
@@ -16,7 +16,7 @@ import frc.robot.subsystems.climber.ClimberBrake;
  * This Command sends the appropriate signals to the specified climber subsystem
  * to move to a given height (up or down) form it's current position.
  */
-public class CalibrateClimber extends Command {
+public class CalibrateClimber extends TimedCommand {
   private Climber climberSubsystem;
   private Climber frontClimber;
   private ClimberBrake climberBrake;
@@ -24,7 +24,7 @@ public class CalibrateClimber extends Command {
   public CalibrateClimber(Climber front, Climber subsystem, ClimberBrake brake) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //super("Calibrate Climber", 0.5);
+    super("Calibrate Climber", 1.0);
     frontClimber = front;
     requires(frontClimber);
     climberSubsystem = subsystem;
@@ -52,7 +52,7 @@ public class CalibrateClimber extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (climberSubsystem.getTopLimitSwitch() && frontClimber.getTopLimitSwitch());
+    return ((climberSubsystem.getTopLimitSwitch() && frontClimber.getTopLimitSwitch()) || (this.isTimedOut()));
   }
 
   // Called once after isFinished returns true
