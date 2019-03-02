@@ -35,6 +35,7 @@ import frc.robot.subsystems.hatch.HatchCollector;
 import frc.robot.subsystems.hatch.PressureGauge;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 import frc.robot.subsystems.vision.Limelight;
+import frc.robot.commands.drives.ShiftLowGear;
 
 /**
  * The VM is configured to automatically run this class, and to call the
