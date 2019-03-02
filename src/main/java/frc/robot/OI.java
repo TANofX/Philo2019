@@ -43,8 +43,16 @@ public class OI {
   Button climbMoveForward = new JoystickButton(stick, ButtonMap.DRIVE_FORWARD);
   Button climbMoveBackwards = new JoystickButton(stick, ButtonMap.DRIVE_BACKWARD);
 
+  //Buttons for simple auto adjustments of the climber system
+  Button climbLevelThreeButton = new JoystickButton (xbox, ButtonMap.LEVEL_THREE);
+  Button climblevelTwoButton = new JoystickButton(xbox, ButtonMap.LEVEL_TWO);
+  Button zeroClimberButton = new JoystickButton(xbox, ButtonMap.CLIMBER_ZERO);
+
+  //Buttons relating to gearshifts
+  Button lowGearButton = new JoystickButton(xbox, ButtonMap.LOW_GEAR);
+  Button highGearButton =new JoystickButton(xbox, ButtonMap.HIGH_GEAR);
   //Buttons for drive
-  Button gearShiftButton = new JoystickButton(xbox, ButtonMap.GEAR_SHIFT);
+ // Button gearShiftButton = new JoystickButton(xbox, ButtonMap.GEAR_SHIFT);
   Button cameraSwitchButton = new JoystickButton(xbox, ButtonMap.CAMERA_SWITCHER);
   
   //Buttons for hatch

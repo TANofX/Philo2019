@@ -36,6 +36,7 @@ import frc.robot.subsystems.hatch.HatchCollector;
 import frc.robot.subsystems.hatch.PressureGauge;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 import frc.robot.subsystems.vision.Limelight;
+import frc.robot.commands.drives.ShiftLowGear;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -91,12 +92,21 @@ public class Robot extends TimedRobot {
     m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
     m_oi.hatchPushOff.whileHeld(new HatchRelease(m_hatch));
 
-    m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
+    //m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
     m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
 
-//    SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
-    SmartDashboard.putData("Calibrate Climber", m_calibrateClimber);
-//    SmartDashboard.putData("Do NOT Push", new ReverseCalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
+    m_oi.highGearButton.whenPressed(new ShiftHighGear(m_drives));
+    m_oi.lowGearButton.whenPressed(new ShiftLowGear(m_drives));
+    //confused on what to do for low gear
+    //m_oi.lowGearButton.whileHeld(new ShiftLowGear(m_drives));
+   
+    m_oi.climbLevelThreeButton.whenPressed(new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, m_drives));
+    m_oi.climblevelTwoButton.whenPressed( new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
+    m_oi.zeroClimberButton.whenPressed(new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
+
+    //SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
+    SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
+    //SmartDashboard.putData("Do NOT Push", new ReverseCalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
 
     // SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5, 19.5));
     // SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0, 14.0));

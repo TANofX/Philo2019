@@ -14,13 +14,20 @@ public class ButtonMap {
     public static int STICK = 1;
     public static int XBOX = 0;
 
-    public static int GEAR_SHIFT = 5;
+    //Gear shifts
+    
+    public static int HIGH_GEAR = 6;;
+    public static int LOW_GEAR = 5;
+
+    public static int LEVEL_THREE = 2;
+    public static int LEVEL_TWO = 3;
 
     public static int DRIVE_AXIS = 1;
     public static int TURN_AXIS = 4;
     public static int TURN_ADJUST_AXIS = 3;
 
-    public static int CAMERA_SWITCHER = 3;
+    public static int CAMERA_SWITCHER = 1;
+    public static int CLIMBER_ZERO = 4;
 
     //Joystick buttons
     public static int RAISE_LOWER = 5;
