@@ -92,7 +92,8 @@ public class Robot extends TimedRobot {
     //m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
     m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
 
-    m_oi.highGearButton.whileHeld(new ShiftHighGear(m_drives));
+    m_oi.highGearButton.whenPressed(new ShiftHighGear(m_drives));
+    m_oi.lowGearButton.whenPressed(new ShiftLowGear(m_drives));
     //confused on what to do for low gear
     //m_oi.lowGearButton.whileHeld(new ShiftLowGear(m_drives));
    
