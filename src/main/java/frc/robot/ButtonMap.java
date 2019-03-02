@@ -26,12 +26,8 @@ public class ButtonMap {
     public static int TURN_AXIS = 4;
     public static int TURN_ADJUST_AXIS = 3;
 
-<<<<<<< HEAD
     public static int CAMERA_SWITCHER = 1;
     public static int CLIMBER_ZERO = 4;
-
-=======
-    public static int CAMERA_SWITCHER = 3;
 
     //Joystick buttons
     public static int RAISE_LOWER = 5;
@@ -43,5 +39,4 @@ public class ButtonMap {
     public static int BACK_DOWN = 10;
     public static int DRIVE_FORWARD = 11;
     public static int DRIVE_BACKWARD = 12;
->>>>>>> develop
 }
