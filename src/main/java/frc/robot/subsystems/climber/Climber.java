@@ -159,8 +159,11 @@ public class Climber extends Subsystem {
     driveMotor.set(ControlMode.Velocity, pulsesPer100MilliSec);
   }
 
-  public void climbSpeed() {
-    driveSpeed(6.0);
+  public void climbSpeed(boolean reverse) {
+    double speed = 6.0;
+    if (reverse) speed *= -1.0;
+
+    driveSpeed(speed);
   }
 
   public boolean isAtHeightInches(double targetHeight) {
