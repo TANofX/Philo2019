@@ -55,6 +55,10 @@ public class OI {
  // Button gearShiftButton = new JoystickButton(xbox, ButtonMap.GEAR_SHIFT);
   Button cameraSwitchButton = new JoystickButton(xbox, ButtonMap.CAMERA_SWITCHER);
   
+  //Vision buttons
+ public Button visionButton = new JoystickButton(xbox, ButtonMap.VISION_BUTTON); 
+ public Button cancelButton = new JoystickButton(xbox, ButtonMap.CANCEL_BUTTON);
+ public Button altVisionButton = new JoystickButton(stick, ButtonMap.ALT_VISION_BUTTON);
   //Buttons for hatch
   Button hatchHinge = new JoystickButton(stick, ButtonMap.RAISE_LOWER);
 	Button hatchExtend = new JoystickButton(stick, ButtonMap.GRAB_HATCH);

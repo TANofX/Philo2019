@@ -204,4 +204,8 @@ public class DriveBase extends Subsystem {
   public boolean isHighGear() {
     return gearShift.get();
   }
+  public void tankDrive(double leftPercent, double rightPercent) {
+    leftMasterMotor.set(ControlMode.PercentOutput, leftPercent);
+    rightMasterMotor.set(ControlMode.PercentOutput, rightPercent);
+  }
 }

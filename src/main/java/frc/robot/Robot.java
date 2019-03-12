@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.vision.CameraSwitcher;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -27,8 +29,10 @@ import frc.robot.commands.drives.DriveForward;
 import frc.robot.commands.drives.ShiftHighGear;
 import frc.robot.commands.hatch.HatchHingeToggle;
 import frc.robot.commands.hatch.HatchExtendToggle;
+import frc.robot.commands.CancelEverything;
 import frc.robot.commands.hatch.HatchRelease;
 import frc.robot.commands.vision.CameraSwitcher;
+import frc.robot.commands.vision.FollowTarget;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberBrake;
 import frc.robot.subsystems.drives.DriveBase;
@@ -37,6 +41,7 @@ import frc.robot.subsystems.hatch.PressureGauge;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.commands.drives.ShiftLowGear;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -129,6 +134,34 @@ public class Robot extends TimedRobot {
 
     m_oi.climbMoveForward.whileHeld(new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 15));
     m_oi.climbMoveBackwards.whileHeld(new MoveDistance(m_frontClimber, m_rearClimber, m_drives, -15));
+
+ // Preferences for vision parameters
+ double Kp = Preferences.getInstance().getDouble("Kp", 0.01);
+ double Ki = Preferences.getInstance().getDouble("Ki", 0.0001);
+ double sMin = Preferences.getInstance().getDouble("turn", 0.17);
+ double driveKp = Preferences.getInstance().getDouble("driveP", 0.001);
+ double driveKi = Preferences.getInstance().getDouble("driveI", 0.0);
+ double dMin = Preferences.getInstance().getDouble("drive", 0.17);
+ double tRange = Preferences.getInstance().getDouble("turnRange", 0.5);
+ double dRange = Preferences.getInstance().getDouble("driveRange", 5);
+ int tWidth = Preferences.getInstance().getInt("targetWidth", 350);
+
+ Command followTarget = new FollowTarget(m_vision
+ , m_drives
+ , Kp
+ , Ki
+ , sMin
+ , driveKp
+ , driveKi
+ , dMin
+ , tWidth
+ , tRange
+ , dRange);
+
+ m_oi.visionButton.whenPressed(followTarget);
+ m_oi.altVisionButton.whenPressed(followTarget);
+
+ m_oi.cancelButton.whenPressed(new CancelEverything(m_drives, null, null));
   }
 
   /**
