@@ -71,9 +71,9 @@ public class FollowTarget extends Command {
 
     double left_command = 1.0 * drive_speed;
     double right_command = -1.0 * drive_speed;
-    if (Math.signum(tx) > 0) {
+    if (Math.signum(tx) < 0) {
       right_command -= steering_adjust;
-    } else if (Math.signum(tx) < 0) {
+    } else if (Math.signum(tx) > 0) {
       left_command += steering_adjust;      
     }
      drivebase.tankDrive(left_command, right_command);

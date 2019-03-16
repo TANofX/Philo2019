@@ -38,6 +38,7 @@ import frc.robot.subsystems.climber.ClimberBrake;
 import frc.robot.subsystems.drives.DriveBase;
 import frc.robot.subsystems.hatch.HatchCollector;
 import frc.robot.subsystems.hatch.PressureGauge;
+import frc.robot.subsystems.led.LEDLights;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.commands.drives.ShiftLowGear;
@@ -60,7 +61,8 @@ public class Robot extends TimedRobot {
                                                   , RobotMap.PCM_ID
                                                   , RobotMap.GEARSHIFT_PCM_PORT);
   public static Climber m_frontClimber = new Climber(RobotMap.FRONT_LIFT_MOTOR_ID
-                                                    , RobotMap.FRONT_DRIVE_MOTOR_ID);
+                                                    , RobotMap.FRONT_DRIVE_MOTOR_ID
+                                                    , RobotMap.FRONT_LIFT_FOLLOWER_ID);
   public static Climber m_rearClimber = new Climber(RobotMap.REAR_LIFT_MOTOR_ID
                                                   , RobotMap.REAR_DRIVE_MOTOR_ID);
   public static HatchCollector m_hatch = new HatchCollector(RobotMap.PCM_ID
@@ -70,7 +72,8 @@ public class Robot extends TimedRobot {
                                                           , RobotMap.HATCH_RETRACT_PCM_PORT
                                                           , RobotMap.HATCH_PUSHOFF_PCM_PORT
                                                           , RobotMap.HINGE_EXTEND_DIO_PORT
-                                                          , RobotMap.HINGE_RETRACT_DIO_PORT);
+                                                          , RobotMap.HINGE_RETRACT_DIO_PORT
+                                                          , new LEDLights(RobotMap.PCM_ID, RobotMap.GREEN_LIGHT_PCM_PORT));
   public static PidgeonIMU m_pigeon = new PidgeonIMU(RobotMap.PIDGEON_IMU_ID);
   public static OI m_oi;
   public static ClimberBrake m_brake = new ClimberBrake(RobotMap.PCM_ID, RobotMap.LIFT_BRAKE_PCM_PORT);

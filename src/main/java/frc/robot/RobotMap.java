@@ -33,6 +33,7 @@ public class RobotMap {
 
   public static final int FRONT_LIFT_MOTOR_ID = 5;
   public static final int FRONT_DRIVE_MOTOR_ID = 13;
+  public static final int FRONT_LIFT_FOLLOWER_ID = 20;
 
   public static final int REAR_LIFT_MOTOR_ID = 2;
   public static final int REAR_DRIVE_MOTOR_ID = 9;
@@ -49,6 +50,7 @@ public class RobotMap {
   public static final int HATCH_RETRACT_PCM_PORT = 4;
   public static final int HATCH_PUSHOFF_PCM_PORT = 5;
   public static final int LIFT_BRAKE_PCM_PORT = 6;
+  public static final int GREEN_LIGHT_PCM_PORT = 7;
 
   public static final int HINGE_EXTEND_DIO_PORT = 0;
   public static final int HINGE_RETRACT_DIO_PORT = 1;

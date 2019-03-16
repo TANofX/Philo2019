@@ -30,9 +30,11 @@ public class CameraSwitcher extends Command {
   protected void execute() {
     switch (visionControl.getStreamMode()) {
       case PIP_SECONDARY:
+      visionControl.setLEDMode(Limelight.LEDMode.ON);
         visionControl.setStreamMode(Limelight.StreamMode.PIP_MAIN);
         break;
       default:
+      visionControl.setLEDMode(Limelight.LEDMode.OFF);
         visionControl.setStreamMode(Limelight.StreamMode.PIP_SECONDARY);
     }
   }

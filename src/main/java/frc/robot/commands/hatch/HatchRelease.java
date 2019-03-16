@@ -12,9 +12,11 @@ package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.subsystems.hatch.HatchCollector;
+import frc.robot.subsystems.led.LEDLights;
 
 public class HatchRelease extends TimedCommand {
   private HatchCollector collector;
+
   public HatchRelease(HatchCollector hatch) {
   super(0.25);
     collector = hatch;
@@ -23,20 +25,28 @@ public class HatchRelease extends TimedCommand {
     // eg. requires(chassis);
   }
 
-  // Called just before this Command runs the first time
+  //                                                                                                 Called just before this Command runs the first time
   @Override
   protected void initialize() {
     collector.hatchRelease(true);
+    //collector.hatchExtend(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    //if(timeSinceInitialized() > 500){
+    // collector.hatchExtend(false);
+    //}
+    //else if(timeSinceInitialized() > 250){
+    //  collector.hatchRelease(true);
+    //}
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    //return timeSinceInitialized() > 600;
     return false;
   }
 
@@ -50,6 +60,8 @@ public class HatchRelease extends TimedCommand {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    collector.hatchRelease(false);
+    end();
+     collector.hatchRelease(false);
+     collector.hatchExtend(false);
   }
 }
