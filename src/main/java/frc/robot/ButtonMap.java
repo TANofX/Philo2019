@@ -10,7 +10,8 @@ package frc.robot;
 
 public class ButtonMap {
     //This class will be used to list all the locations of joystick buttons
-    // As of 2/9/2018, all joystick buttons are TEMPORARY. Do not use these for reference.
+    // As of 2/9/2019, all joystick buttons are TEMPORARY. Do not use these for reference.
+    // As of 3/11/2019, all joystick buttons have been pretty much finalized.
     public static int STICK = 1;
     public static int XBOX = 0;
 
@@ -28,6 +29,9 @@ public class ButtonMap {
 
     public static int CAMERA_SWITCHER = 1;
     public static int CLIMBER_ZERO = 4;
+    public static int VISION_BUTTON = 8;
+    public static int CANCEL_BUTTON = 7;
+    public static int ALT_VISION_BUTTON = 4;
 
     //Joystick buttons
     public static int RAISE_LOWER = 5;

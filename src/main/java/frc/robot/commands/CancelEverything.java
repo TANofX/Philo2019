@@ -5,19 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.vision;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.vision.Limelight;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.drives.DriveBase;
 
-public class CameraSwitcher extends Command {
-  private Limelight visionControl;
-
-  public CameraSwitcher(Limelight subsystem) {
+public class CancelEverything extends Command {
+  public CancelEverything(DriveBase drives
+                         , Climber fClimber
+                         , Climber rClimber) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-
-    visionControl = subsystem;
+    if (drives != null) requires(drives);
+    if (fClimber != null) requires(fClimber);
+    if (rClimber != null) requires(rClimber);
   }
 
   // Called just before this Command runs the first time
@@ -28,15 +30,6 @@ public class CameraSwitcher extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    switch (visionControl.getStreamMode()) {
-      case PIP_SECONDARY:
-      visionControl.setLEDMode(Limelight.LEDMode.ON);
-        visionControl.setStreamMode(Limelight.StreamMode.PIP_MAIN);
-        break;
-      default:
-      visionControl.setLEDMode(Limelight.LEDMode.OFF);
-        visionControl.setStreamMode(Limelight.StreamMode.PIP_SECONDARY);
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

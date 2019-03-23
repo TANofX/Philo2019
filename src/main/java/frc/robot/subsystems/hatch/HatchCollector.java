@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.subsystems.led.LEDLights;
 
 /**
  * Add your docs here.
@@ -26,6 +27,8 @@ public class HatchCollector extends Subsystem {
   private boolean started = false;
   private DigitalInput extendSwitch;
   private DigitalInput retractSwitch;
+
+  private LEDLights lights = null;
 
   public HatchCollector(  int pcmCANId
                         , int liftIdA
@@ -42,6 +45,20 @@ public class HatchCollector extends Subsystem {
     extendSwitch = new DigitalInput(extendIO);
     retractSwitch = new DigitalInput(retractIO);
   }
+
+  public HatchCollector(  int pcmCANId
+                        , int liftIdA
+                        , int liftIdB
+                        , int extendIdA
+                        , int extendIdB
+                        , int releaseId
+                        , int extendIO
+                        , int retractIO
+                        , LEDLights lightSubsystem) {
+                          this(pcmCANId, liftIdA, liftIdB, extendIdA, extendIdB, releaseId, extendIO, retractIO);
+
+                          lights = lightSubsystem;
+                        }
 
   public void startup() {
     compressorControl.setClosedLoopControl(true);
@@ -63,6 +80,7 @@ public class HatchCollector extends Subsystem {
   }
   public void hatchRelease(boolean hingeState) {
     hatchRelease.set(hingeState);
+    if (lights != null) lights.green(hingeState);
   }
   public void hatchExtend(boolean hingeState) {
     hatchExtend.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
