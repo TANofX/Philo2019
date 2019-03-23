@@ -10,10 +10,10 @@ package frc.robot.commands.drives;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.drives.DriveBase;
 
-public class ShiftHighGear extends Command {
+public class ShiftLowGear extends Command {
   private DriveBase driveBase;
   
-  public ShiftHighGear(DriveBase dBase) {
+  public ShiftLowGear(DriveBase dBase) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     driveBase = dBase;
@@ -22,7 +22,7 @@ public class ShiftHighGear extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-      driveBase.highGear();
+      driveBase.lowGear();
   }
 
   // Called repeatedly when this Command is scheduled to run

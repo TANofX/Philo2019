@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.climber.AngleLimitedClimberDrive;
 import frc.robot.commands.climber.CalibrateClimber;
 import frc.robot.commands.climber.ClimbToHeight;
 import frc.robot.commands.climber.ClimbToLevel;
@@ -35,6 +36,7 @@ import frc.robot.subsystems.hatch.HatchCollector;
 import frc.robot.subsystems.hatch.PressureGauge;
 import frc.robot.subsystems.pidgeonimu.PidgeonIMU;
 import frc.robot.subsystems.vision.Limelight;
+import frc.robot.commands.drives.ShiftLowGear;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -71,6 +73,7 @@ public class Robot extends TimedRobot {
   public static PressureGauge m_pressureGuage = new PressureGauge(RobotMap.PRESSURE_GAUGE_ANALOGUE_INPUT);
 
   Command m_autonomousCommand;
+  Command m_calibrateClimber = new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
@@ -89,26 +92,43 @@ public class Robot extends TimedRobot {
     m_oi.hatchExtend.whenPressed(new HatchExtendToggle(m_hatch));
     m_oi.hatchPushOff.whileHeld(new HatchRelease(m_hatch));
 
-    m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
+    //m_oi.gearShiftButton.whileHeld(new ShiftHighGear(m_drives));
     m_oi.cameraSwitchButton.whenPressed(new CameraSwitcher(m_vision));
 
-    SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
+    m_oi.highGearButton.whenPressed(new ShiftHighGear(m_drives));
+    m_oi.lowGearButton.whenPressed(new ShiftLowGear(m_drives));
+    //confused on what to do for low gear
+    //m_oi.lowGearButton.whileHeld(new ShiftLowGear(m_drives));
+   
+    m_oi.climbLevelThreeButton.whenPressed(new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, m_drives));
+    m_oi.climblevelTwoButton.whenPressed( new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
+    m_oi.zeroClimberButton.whenPressed(new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
+
+    //SmartDashboard.putData("Test Climb Drive", new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 12.0));
     SmartDashboard.putData("Calibrate Climber", new CalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
-    SmartDashboard.putData("Do NOT Push", new ReverseCalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
+    //SmartDashboard.putData("Do NOT Push", new ReverseCalibrateClimber(m_frontClimber, m_rearClimber, m_brake));
 
-    SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5, 19.5));
-    SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0, 14.0));
-    SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 8.0, 8.0));
-    SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0, 4.0));
-    SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
+    // SmartDashboard.putData("Sync 19.5", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 19.5, 19.5));
+    // SmartDashboard.putData("Sync 14", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 14.0, 14.0));
+    // SmartDashboard.putData("Sync 8", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 8.0, 8.0));
+    // SmartDashboard.putData("Sync 4", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 4.0, 4.0));
+    // SmartDashboard.putData("Sync 0", new ClimbToHeight(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 0.0, 0.0));
 
-    SmartDashboard.putData("Full Low Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
-    SmartDashboard.putData("Full High Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, m_drives));
+    // SmartDashboard.putData("Full Low Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 7.0, m_drives));
+    // SmartDashboard.putData("Full High Climb", new ClimbToLevel(m_frontClimber, m_rearClimber, m_brake, m_pigeon, 20.5, m_drives));
 
-    SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
-    SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));
+    // SmartDashboard.putData("Breakin Drive System", new AutomatedBreakInComplete());
+    // SmartDashboard.putData("Drive Forward", new DriveForward(m_drives));
 
     SmartDashboard.putData("Release Brake", new ReleaseBrake(m_brake));
+
+    m_oi.backClimbDown.whileHeld(new AngleLimitedClimberDrive(m_rearClimber, m_brake, m_pigeon, 0.5, false));
+    m_oi.backClimbUp.whileHeld(new AngleLimitedClimberDrive(m_rearClimber, m_brake, m_pigeon, -0.5, false));
+    m_oi.frontClimbDown.whileHeld(new AngleLimitedClimberDrive(m_frontClimber, m_brake, m_pigeon, 0.25, true));
+    m_oi.frontClimbUp.whileHeld(new AngleLimitedClimberDrive(m_frontClimber, m_brake, m_pigeon, -1.0, true));
+
+    m_oi.climbMoveForward.whileHeld(new MoveDistance(m_frontClimber, m_rearClimber, m_drives, 15));
+    m_oi.climbMoveBackwards.whileHeld(new MoveDistance(m_frontClimber, m_rearClimber, m_drives, -15));
   }
 
   /**
@@ -150,7 +170,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    //m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -160,9 +180,10 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.start();
+    // }
+    m_calibrateClimber.start();
   }
 
   /**
@@ -182,7 +203,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    Scheduler.getInstance().add(new MotorOutput(m_frontClimber, "front"));
   }
 
   /**
