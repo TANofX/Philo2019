@@ -80,7 +80,8 @@ public class HatchCollector extends Subsystem {
   }
   public void hatchRelease(boolean hingeState) {
     hatchRelease.set(hingeState);
-    if (lights != null) lights.green(hingeState);
+    // Originally, this took a boolean, now we take a value
+    if (lights != null) lights.blue(hingeState ? 255 : 0);
   }
   public void hatchExtend(boolean hingeState) {
     hatchExtend.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
