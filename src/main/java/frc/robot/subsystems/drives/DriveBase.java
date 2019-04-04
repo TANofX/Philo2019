@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drives.DefaultJoystickDrive;
 
+import frc.robot.subsystems.led.LEDLights;
+
 /**
  * Add your docs here.
  */
@@ -59,6 +61,8 @@ public class DriveBase extends Subsystem {
   private static final double INCHES_PER_TICK_HIGH = WHEEL_CIRCUMFERENCE_INCHES / TICKS_PER_REVOLUTION_OUTPUT_HIGH;
   private static final double INCHES_PER_TICK_LOW = WHEEL_CIRCUMFERENCE_INCHES / TICKS_PER_REVOLUTION_OUTPUT_LOW;
 
+  private LEDLights lights = null;
+
   public DriveBase( int leftMasterCANId
                   , int leftFollower1CANId
                   , int leftFollower2CANId
@@ -66,6 +70,7 @@ public class DriveBase extends Subsystem {
                   , int rightFollower1CANId
                   , int rightFollower2CANId
                   , int pcmId
+                  , LEDLights lightSubsystem
                   , int gearShiftId) {
     /* Configure left side drive base motors.  We may need to create a subclass like we have used
        in prior years in order to use speed control */
@@ -78,6 +83,8 @@ public class DriveBase extends Subsystem {
     rightMasterMotor = new DriveMotor(rightMasterCANId);
     rightFollower1 = new DriveMotor(rightFollower1CANId);
     rightFollower2 = new DriveMotor(rightFollower2CANId);
+
+    lights = lightSubsystem;
 
     gearShift = new Solenoid(pcmId, gearShiftId);
 
@@ -184,6 +191,7 @@ public class DriveBase extends Subsystem {
     rightMasterMotor.configClosedloopRamp(1.0);
     gearShift.set(true);
     currentInchesPerTick = INCHES_PER_TICK_HIGH;
+    if (lights != null) lights.green(true);
   }
 
   public void lowGear() {
@@ -191,6 +199,7 @@ public class DriveBase extends Subsystem {
     rightMasterMotor.configClosedloopRamp(0.5);
     gearShift.set(false);
     currentInchesPerTick = INCHES_PER_TICK_LOW;
+    if (lights != null) lights.green(false);
   }
 
   public void dashboardOutput() {
