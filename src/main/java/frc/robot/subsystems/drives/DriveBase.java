@@ -7,11 +7,6 @@
 
 package frc.robot.subsystems.drives;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -101,11 +96,11 @@ public class DriveBase extends Subsystem {
 		//currentGearState = false;
     
     //leftFollower1.setInverted(InvertType.OpposeMaster);
-		leftMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
+		//leftMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
 
 		
 		//rightFollower1.setInverted(InvertType.OpposeMaster);
-		rightMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
+		//rightMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
 		
 		int timeoutMs = 10;
 		
@@ -116,8 +111,8 @@ public class DriveBase extends Subsystem {
 		// rightMasterMotor.enableCurrentLimit(true);
 		// rightFollower1.enableCurrentLimit(true);
 		// rightFollower2.enableCurrentLimit(true);
-    leftMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    rightMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    //leftMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    //rightMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
 		// leftMasterMotor.configAllowableClosedloopError(POSITION_CONTROL, (int)MAX_POSITION_ERROR, timeoutMs);
 		// leftMasterMotor.configAllowableClosedloopError(SPEED_CONTROL, (int)MAX_VELOCITY_ERROR, timeoutMs);
@@ -161,8 +156,8 @@ public class DriveBase extends Subsystem {
 
   public void stopMotors()
   {
-    leftMasterMotor.set(ControlMode.PercentOutput, 0);
-    rightMasterMotor.set(ControlMode.PercentOutput, 0);
+    leftMasterMotor.stopMotor(); //leftMasterMotor.set(ControlMode.PercentOutput, 0);
+    rightMasterMotor.stopMotor();  //rightMasterMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public DifferentialDrive getDriveBase()
@@ -171,8 +166,8 @@ public class DriveBase extends Subsystem {
   }
 
   public void driveMotors(double speed) {
-    leftMasterMotor.set(ControlMode.PercentOutput, speed);
-    rightMasterMotor.set(ControlMode.PercentOutput, -1 * speed);
+    leftMasterMotor.set(speed);  //leftMasterMotor.set(ControlMode.PercentOutput, speed);
+    rightMasterMotor.set(-1 * speed); //rightMasterMotor.set(ControlMode.PercentOutput, -1 * speed);
   }
 
   public void climbSpeed(boolean reverse) {
@@ -187,34 +182,34 @@ public class DriveBase extends Subsystem {
   }
 
   public void highGear() {
-    leftMasterMotor.configClosedloopRamp(1.0);
-    rightMasterMotor.configClosedloopRamp(1.0);
+    //leftMasterMotor.configClosedloopRamp(1.0);
+    //rightMasterMotor.configClosedloopRamp(1.0);
     gearShift.set(true);
     currentInchesPerTick = INCHES_PER_TICK_HIGH;
     if (lights != null) lights.green(true);
   }
 
   public void lowGear() {
-    leftMasterMotor.configClosedloopRamp(0.5);
-    rightMasterMotor.configClosedloopRamp(0.5);
+    //leftMasterMotor.configClosedloopRamp(0.5);
+    //rightMasterMotor.configClosedloopRamp(0.5);
     gearShift.set(false);
     currentInchesPerTick = INCHES_PER_TICK_LOW;
     if (lights != null) lights.green(false);
   }
 
   public void dashboardOutput() {
-    SmartDashboard.putNumber("Left Velocity", leftMasterMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right Velocity", rightMasterMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Left Velocity", leftMasterMotor.getEncoder().getVelocity());//leftMasterMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Velocity", rightMasterMotor.getEncoder().getVelocity());//rightMasterMotor.getSelectedSensorVelocity());
 
-    SmartDashboard.putNumber("Left Position", leftMasterMotor.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Right Position", rightMasterMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Position", leftMasterMotor.getEncoder().getPosition());//leftMasterMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right Position", rightMasterMotor.getEncoder().getPosition());//rightMasterMotor.getSelectedSensorPosition());
   }
 
   public boolean isHighGear() {
     return gearShift.get();
   }
   public void tankDrive(double leftPercent, double rightPercent) {
-    leftMasterMotor.set(ControlMode.PercentOutput, leftPercent);
-    rightMasterMotor.set(ControlMode.PercentOutput, rightPercent);
+    leftMasterMotor.set(leftPercent);//leftMasterMotor.set(ControlMode.PercentOutput, leftPercent);
+    rightMasterMotor.set(rightPercent);//rightMasterMotor.set(ControlMode.PercentOutput, rightPercent);
   }
 }

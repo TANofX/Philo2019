@@ -9,8 +9,6 @@ package frc.robot.subsystems.led;
 
 import java.awt.Color;
 
-import com.mach.LightDrive.LightDriveCAN;
-
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,7 +20,6 @@ public class LEDLights extends Subsystem {
   // here. Call these from Commands.
   private Solenoid greenLights;
   private Solenoid blueLights = null;
-  private LightDriveCAN lightDrive = null;
   private Color currentColor = Color.BLACK;
 
   // This constructor creates a LightDrive component to control the lighting.
