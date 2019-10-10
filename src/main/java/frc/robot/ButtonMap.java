@@ -35,8 +35,8 @@ public class ButtonMap {
 
     //Joystick buttons
     public static int RAISE_LOWER = 5;
-    public static int GRAB_HATCH = 2;
-    public static int DETACH_HATCH = 1;
+    public static int GRAB_HATCH = 1;
+    public static int DETACH_HATCH = 2;
     public static int FRONT_UP = 7;
     public static int BACK_UP = 8;
     public static int FRONT_DOWN = 9;

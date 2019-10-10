@@ -52,6 +52,11 @@ import frc.robot.commands.drives.ShiftLowGear;
  * project.
  */
 public class Robot extends TimedRobot {
+  // Using this version, we create a single light version that uses the PCM
+  public static LEDLights m_lights = new LEDLights(RobotMap.PCM_ID, RobotMap.BLUE_LIGHT_PCM_PORT, RobotMap.GREEN_LIGHT_PCM_PORT);
+  // Comment out the previous line and uncomment this next line to use the LightDrive on CAN
+  //public static LEDLights m_lights = new LEDLights();
+
   public static DriveBase m_drives = new DriveBase(RobotMap.LEFT_MASTER_MOTOR_ID
                                                   , RobotMap.LEFT_FOLLOWER_1_ID
                                                   , RobotMap.LEFT_FOLLOWER_2_ID
@@ -59,6 +64,7 @@ public class Robot extends TimedRobot {
                                                   , RobotMap.RIGHT_FOLLOWER_1_ID
                                                   , RobotMap.RIGHT_FOLLOWER_2_ID
                                                   , RobotMap.PCM_ID
+                                                  , m_lights
                                                   , RobotMap.GEARSHIFT_PCM_PORT);
   public static Climber m_frontClimber = new Climber(RobotMap.FRONT_LIFT_MOTOR_ID
                                                     , RobotMap.FRONT_DRIVE_MOTOR_ID
@@ -73,7 +79,7 @@ public class Robot extends TimedRobot {
                                                           , RobotMap.HATCH_PUSHOFF_PCM_PORT
                                                           , RobotMap.HINGE_EXTEND_DIO_PORT
                                                           , RobotMap.HINGE_RETRACT_DIO_PORT
-                                                          , new LEDLights(RobotMap.PCM_ID, RobotMap.GREEN_LIGHT_PCM_PORT));
+                                                          , m_lights);
   public static PidgeonIMU m_pigeon = new PidgeonIMU(RobotMap.PIDGEON_IMU_ID);
   public static OI m_oi;
   public static ClimberBrake m_brake = new ClimberBrake(RobotMap.PCM_ID, RobotMap.LIFT_BRAKE_PCM_PORT);

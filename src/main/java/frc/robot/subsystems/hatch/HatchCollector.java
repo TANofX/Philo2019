@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.subsystems.led.LEDLights;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 /**
  * Add your docs here.
@@ -23,7 +24,7 @@ public class HatchCollector extends Subsystem {
   private Compressor compressorControl;
   private DoubleSolenoid hatchLift;
   private DoubleSolenoid hatchExtend;
-  private Solenoid hatchRelease;
+  //private Solenoid hatchRelease;
   private boolean started = false;
   private DigitalInput extendSwitch;
   private DigitalInput retractSwitch;
@@ -41,7 +42,7 @@ public class HatchCollector extends Subsystem {
     compressorControl = new Compressor(pcmCANId);
     hatchLift = new DoubleSolenoid(pcmCANId, liftIdA, liftIdB);
     hatchExtend = new DoubleSolenoid(pcmCANId, extendIdA, extendIdB);
-    hatchRelease = new Solenoid(pcmCANId, releaseId);
+    //hatchRelease = new Solenoid(pcmCANId, releaseId);
     extendSwitch = new DigitalInput(extendIO);
     retractSwitch = new DigitalInput(retractIO);
   }
@@ -64,14 +65,14 @@ public class HatchCollector extends Subsystem {
     compressorControl.setClosedLoopControl(true);
     hatchLift.set(DoubleSolenoid.Value.kOff);
     hatchExtend.set(DoubleSolenoid.Value.kOff);
-    hatchRelease.set(false);
+    //hatchRelease.set(false);
     started = true;
   }
 
   public void shutdown() {
     hatchLift.set(DoubleSolenoid.Value.kReverse);
     hatchExtend.set(DoubleSolenoid.Value.kReverse);
-    hatchRelease.set(false);
+    //hatchRelease.set(false);
     compressorControl.setClosedLoopControl(false);
     started = false;
   }
@@ -79,11 +80,12 @@ public class HatchCollector extends Subsystem {
     hatchLift.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
   }
   public void hatchRelease(boolean hingeState) {
-    hatchRelease.set(hingeState);
-    if (lights != null) lights.green(hingeState);
+    //hatchRelease.set(hingeState);
+    // Originally, this took a boolean, now we take a value
   }
   public void hatchExtend(boolean hingeState) {
     hatchExtend.set(hingeState ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+    if (lights != null) lights.blue(hingeState);
   }
   public int getHingePosition(){
     switch (hatchLift.get()) {

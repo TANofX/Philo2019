@@ -7,6 +7,10 @@
 
 package frc.robot.subsystems.led;
 
+import java.awt.Color;
+
+import com.mach.LightDrive.LightDriveCAN;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -17,8 +21,19 @@ public class LEDLights extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private Solenoid greenLights;
+  private Solenoid blueLights = null;
+  private LightDriveCAN lightDrive = null;
+  private Color currentColor = Color.BLACK;
 
-  public LEDLights(int pcmID, int greenLightsId)  {
+  // This constructor creates a LightDrive component to control the lighting.
+  // This allows more precise control of the actual lighting than the alternative
+  // through the PCM.
+  //public LEDLights() {
+  //  lightDrive = new LightDriveCAN();
+  //}
+
+  public LEDLights(int pcmID, int blueLightsId, int greenLightsId)  {
+    blueLights = new Solenoid(pcmID, blueLightsId);
     greenLights = new Solenoid(pcmID, greenLightsId);
   }
 
@@ -31,12 +46,36 @@ public class LEDLights extends Subsystem {
   public void green(boolean state) {
     greenLights.set(state);
   }
+ // public void green(int value) {
+ //   if (lightDrive != null) {
+ //     currentColor = new Color(currentColor.getRed(), value, currentColor.getBlue());
+ //     lightDrive.SetColor(1, currentColor);
+ //   }
+ // }
 
-  public void red(boolean state) {
+ public void red(boolean state) {
 
-  }
+ }
+ // public void red(int value) {
+ //   if (lightDrive != null) {
+ //     currentColor = new Color(value, currentColor.getGreen(), currentColor.getBlue());
+ //     lightDrive.SetColor(1, currentColor);
+ //   }
+ //}
+ public void blue(boolean state) {
+   blueLights.set(state);
+ }
 
-  public void blue(boolean state) {
-    
-  }
+ // public void blue(int value) {
+ //   if (blueLights != null) {
+ //     if (value > 0) {
+ //       blueLights.set(true);
+ //     } else {
+ //       blueLights.set(false);
+ //     }
+ //   } else if (lightDrive != null) {
+ //     currentColor = new Color(currentColor.getRed(), currentColor.getGreen(), value);
+ //     lightDrive.SetColor(1, currentColor);
+ //   }
+ // }
 }
