@@ -88,10 +88,10 @@ public class DriveBase extends Subsystem {
 
     gearShift = new Solenoid(pcmId, gearShiftId);
 
-    leftFollower1.follow(leftMasterMotor);
+    leftFollower1.follow(leftMasterMotor, true);  // Inverted
     leftFollower2.follow(leftMasterMotor);
 
-    rightFollower1.follow(rightMasterMotor);
+    rightFollower1.follow(rightMasterMotor, true); // Inverted
     rightFollower2.follow(rightMasterMotor);
 
     //leftMasterMotor.selectProfileSlot(0, SPEED_CONTROL);
@@ -99,12 +99,12 @@ public class DriveBase extends Subsystem {
 
 		//We generally start in low gear, so let's set the state machine to that
 		//currentGearState = false;
-		
-		leftFollower1.setInverted(InvertType.OpposeMaster);
+    
+    //leftFollower1.setInverted(InvertType.OpposeMaster);
 		leftMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
 
 		
-		rightFollower1.setInverted(InvertType.OpposeMaster);
+		//rightFollower1.setInverted(InvertType.OpposeMaster);
 		rightMasterMotor.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.QuadEncoder, 0, 0);
 		
 		int timeoutMs = 10;

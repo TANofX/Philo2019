@@ -7,16 +7,17 @@
 
 package frc.robot.subsystems.drives;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+// import com.ctre.phoenix.motorcontrol.ControlMode;
+// import com.ctre.phoenix.motorcontrol.NeutralMode;
+// import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
  * Add your docs here.
  */
-public class DriveMotor extends TalonSRX implements SpeedController {
+public class DriveMotor extends CANSparkMax implements SpeedController {
 
     public static final double MAX_SPEED = 7700.0;
     public static final int MAX_PEAK_AMPS = 80;
@@ -26,11 +27,11 @@ public class DriveMotor extends TalonSRX implements SpeedController {
     private double maxSpeed = MAX_SPEED;
 
     public DriveMotor(int talonCANId) {
-        super(talonCANId);
-        configVoltageCompSaturation(12.0, 0);
-        enableVoltageCompensation(false);
-        configClosedloopRamp(0.4, 0);
-        setNeutralMode(NeutralMode.Coast);
+        super(talonCANId, MotorType.kBrushless);
+        enableVoltageCompensation(12.0); //configVoltageCompSaturation(12.0, 0);
+        //enableVoltageCompensation(false);
+        setClosedLoopRampRate(0.4); //configClosedloopRamp(0.4, 0);
+        setIdleMode(IdleMode.kCoast);  //setNeutralMode(NeutralMode.Coast);
     }
 
     @Override
@@ -40,12 +41,14 @@ public class DriveMotor extends TalonSRX implements SpeedController {
 
     @Override
     public void set(double speed) {
-        this.set(ControlMode.Velocity, speed * maxSpeed);
+        // Using vBus rather than Velocity/Speed Control, we should research speed control
+        super.set(speed); //this.set(ControlMode.Velocity, speed * maxSpeed);
     }
 
     @Override
     public double get() {
-        return this.getMotorOutputPercent();
+        return super.getAppliedOutput();
+        //return this.getMotorOutputPercent();
     }
 
     @Override
@@ -55,6 +58,6 @@ public class DriveMotor extends TalonSRX implements SpeedController {
 
     @Override
     public void stopMotor() {
-        this.set(ControlMode.PercentOutput, 0.0);
+        super.set(0.0); //this.set(ControlMode.PercentOutput, 0.0);
     }
 }
