@@ -25,7 +25,7 @@ public class RobotMap {
   // public static int rangefinderModule = 1;
   public static final int LEFT_MASTER_MOTOR_ID = 12;
   public static final int LEFT_FOLLOWER_1_ID = 3;
-  public static final int LEFT_FOLLOWER_2_ID = 4;
+  public static final int LEFT_FOLLOWER_2_ID = 14;
 
   public static final int RIGHT_MASTER_MOTOR_ID = 8;
   public static final int RIGHT_FOLLOWER_1_ID = 10;
@@ -37,6 +37,7 @@ public class RobotMap {
 
   public static final int REAR_LIFT_MOTOR_ID = 2;
   public static final int REAR_DRIVE_MOTOR_ID = 9;
+  public static final int REAR_LIFT_FOLLOWER_ID = 4;
   
   public static final int PDP_ID = 6;
   public static final int PIDGEON_IMU_ID = 7;

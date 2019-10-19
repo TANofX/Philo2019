@@ -70,7 +70,8 @@ public class Robot extends TimedRobot {
                                                     , RobotMap.FRONT_DRIVE_MOTOR_ID
                                                     , RobotMap.FRONT_LIFT_FOLLOWER_ID);
   public static Climber m_rearClimber = new Climber(RobotMap.REAR_LIFT_MOTOR_ID
-                                                  , RobotMap.REAR_DRIVE_MOTOR_ID);
+                                                  , RobotMap.REAR_DRIVE_MOTOR_ID
+                                                  , RobotMap.REAR_LIFT_FOLLOWER_ID);
   public static HatchCollector m_hatch = new HatchCollector(RobotMap.PCM_ID
                                                           , RobotMap.HATCH_HINGE_EXTEND_PCM_PORT
                                                           , RobotMap.HATCH_HINGE_RETRACT_PCM_PORT

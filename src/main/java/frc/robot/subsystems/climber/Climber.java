@@ -30,7 +30,7 @@ public class Climber extends Subsystem {
   private static final double ENCODER_PULSE_PER_REVOLUTION = 4096.0; // VEX Planetary Encoder with 4096 CPR
   private static final double LIFT_ENCODER_PULSE_PER_INCH = ENCODER_PULSE_PER_REVOLUTION / LEAD_SCREW_PITCH;
   //private static final double LIFT_ALLOWED_ERROR_PULSES = LIFT_ENCODER_PULSE_PER_INCH * ALLOWED_HEIGHT_ERROR_INCHES;
-  private static final int LIFT_CRUISE_VELOCITY = 3200;//2800;// Theoretically, this value is in RPM of the lead screw // Original value with kF = 0.249799967 and kP = 1.0 = (int)(6.0 * LIFT_ENCODER_PULSE_PER_INCH / 100.0);
+  private static final int LIFT_CRUISE_VELOCITY = 3500;//3200;//2800;// Theoretically, this value is in RPM of the lead screw // Original value with kF = 0.249799967 and kP = 1.0 = (int)(6.0 * LIFT_ENCODER_PULSE_PER_INCH / 100.0);
   private static int LIFT_PROFILE = 0;
   private static int LIFT_ALLOWED_ERROR = (int)Math.abs(Math.round(LIFT_ENCODER_PULSE_PER_INCH * ALLOWED_HEIGHT_ERROR_INCHES));
   private static double LIFT_MAX_ACCUMULATOR = 40000.0;
