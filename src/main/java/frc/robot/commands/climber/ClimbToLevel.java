@@ -38,7 +38,9 @@ public class ClimbToLevel extends CommandGroup {
     addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 15));
     addSequential(new ClimbToHeight(frontClimber, rearClimber, brake, pigeon, 0.0, heightInInches));
     addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 12));
-    addSequential(new ClimbToHeight(frontClimber, rearClimber, brake, pigeon, 0.0, 0.0));
-    //addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 3));
+    // addParallel(new MoveDistance(frontClimber, rearClimber, driveBase, 999));
+    addSequential(new ClimbToHeightWithDrive(frontClimber, rearClimber, brake, pigeon,driveBase, 0.0, 0.0));  
+    // addSequential(new ClimbToHeight(frontClimber, rearClimber, brake, pigeon, 0.0, 0.0));  
+    addSequential(new MoveDistance(frontClimber, rearClimber, driveBase, 3));
   }
 }

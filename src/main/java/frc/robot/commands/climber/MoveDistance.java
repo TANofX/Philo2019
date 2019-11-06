@@ -22,7 +22,8 @@ public class MoveDistance extends Command {
   private double distanceToMove;
   private double startingDist1;
   private double startingDist2;
-
+  private double FakeOutSwitches;
+  
   public MoveDistance(Climber subsystem, Climber subsystem2, DriveBase dbsubsystem, double distanceToMoveInches) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -36,6 +37,8 @@ public class MoveDistance extends Command {
     requires(dbsubsystem);
 
     distanceToMove = distanceToMoveInches;
+
+    FakeOutSwitches = 999.0;
   }
 
   // Called just before this Command runs the first time
@@ -58,9 +61,15 @@ public class MoveDistance extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(distanceToMove == FakeOutSwitches){
+      return false;
+    }
     if ((climberSubsystem.isAtPosInches(startingDist1 - distanceToMove) && climberSubsystem2.isAtPosInches(startingDist2 - distanceToMove))
-    || (climberSubsystem.getDriveLimitSwitch())
-    || (climberSubsystem2.getDriveLimitSwitch())) {
+    || ((distanceToMove != FakeOutSwitches) && ((climberSubsystem.getDriveLimitSwitch())
+    || (climberSubsystem2.getDriveLimitSwitch()))))
+    // || (climberSubsystem.getDriveLimitSwitch())
+    // || (climberSubsystem2.getDriveLimitSwitch())) 
+    {
       return true;
     } else {
       return false; 
