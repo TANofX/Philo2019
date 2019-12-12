@@ -30,7 +30,8 @@ public class DriveMotor extends CANSparkMax implements SpeedController {
         super(talonCANId, MotorType.kBrushless);
         enableVoltageCompensation(12.0); //configVoltageCompSaturation(12.0, 0);
         //enableVoltageCompensation(false);
-        setClosedLoopRampRate(0.4); //configClosedloopRamp(0.4, 0);
+        //setClosedLoopRampRate(0.4); //configClosedloopRamp(0.4, 0);
+        //setOpenLoopRampRate(0.25);
         setIdleMode(IdleMode.kCoast);  //setNeutralMode(NeutralMode.Coast);
     }
 

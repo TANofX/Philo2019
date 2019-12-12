@@ -72,15 +72,16 @@ public class DriveBase extends Subsystem {
     leftMasterMotor = new DriveMotor(leftMasterCANId);
     leftFollower1 = new DriveMotor(leftFollower1CANId);
     leftFollower2 = new DriveMotor(leftFollower2CANId);
-
+    
     /* Configure right side drive base motors.  We may need to create a subclass like we have used
        in prior years in order to use speed control */
     rightMasterMotor = new DriveMotor(rightMasterCANId);
     rightFollower1 = new DriveMotor(rightFollower1CANId);
     rightFollower2 = new DriveMotor(rightFollower2CANId);
-
+    AdjustRampRate(0.5);
+    
     lights = lightSubsystem;
-
+                  
     gearShift = new Solenoid(pcmId, gearShiftId);
 
     leftFollower1.follow(leftMasterMotor, true);  // Inverted
@@ -142,9 +143,15 @@ public class DriveBase extends Subsystem {
     // leftMasterMotor.configMaxIntegralAccumulator(SPEED_CONTROL, 25000);
     // rightMasterMotor.configMaxIntegralAccumulator(SPEED_CONTROL, 25000);
     driveBase = new DifferentialDrive(leftMasterMotor, rightMasterMotor);
-    //driveBase.setDeadband(0.09);
+    driveBase.setDeadband(0.15);
 
     lowGear();
+  }
+
+  public void AdjustRampRate(double NewRampRate) {
+    rightMasterMotor.setOpenLoopRampRate(NewRampRate);
+    leftMasterMotor.setOpenLoopRampRate(NewRampRate);
+    SmartDashboard.putNumber("NewRampRate", NewRampRate);
   }
 
   @Override
